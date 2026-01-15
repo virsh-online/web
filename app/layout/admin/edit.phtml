@@ -1,0 +1,95 @@
+<div class="admin-header">
+    <button class="burger-menu">☰</button>
+    <h1><?= $this('isNew') ? 'Додати вірш' : 'Редагувати вірш' ?></h1>
+</div>
+
+<div class="overlay"></div>
+
+<div class="admin-container">
+    <aside class="admin-sidebar">
+        <nav>
+            <a href="/?q=admin/index" class="active">📝 Поєзія</a>
+            <a href="/?q=admin/logout">🚪 Вихід</a>
+        </nav>
+    </aside>
+    
+    <main class="admin-main">
+        <?php if ($this('error')): ?>
+            <div class="alert alert-error">
+                <?= htmlspecialchars($this('error')) ?>
+            </div>
+        <?php endif; ?>
+        
+        <?php if ($this('success')): ?>
+            <div class="alert alert-success">
+                <?= htmlspecialchars($this('success')) ?>
+            </div>
+        <?php endif; ?>
+        
+        <div class="form-container">
+            <form method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="title">Назва вірша: *</label>
+                    <input type="text" 
+                           id="title" 
+                           name="title" 
+                           value="<?= htmlspecialchars($this('poem')->get('title') ?? '') ?>" 
+                           required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="virsh">Текст вірша: *</label>
+                    <textarea id="virsh" 
+                              name="virsh" 
+                              required><?= htmlspecialchars($this('poem')->get('virsh') ?? '') ?></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="youtube">YouTube посилання:</label>
+                    <input type="url" 
+                           id="youtube" 
+                           name="youtube" 
+                           value="<?= htmlspecialchars($this('poem')->get('youtube') ?? '') ?>"
+                           placeholder="https://www.youtube.com/embed/...">
+                    <small style="color: #666; display: block; margin-top: 0.25rem;">
+                        Формат: https://www.youtube.com/embed/VIDEO_ID
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="illustration">Ілюстрація:</label>
+                    <?php if ($this('poem')->get('illustration')): ?>
+                        <div style="margin-bottom: 1rem;">
+                            <img src="/<?= htmlspecialchars($this('poem')->get('illustration')) ?>" 
+                                 alt="Поточна ілюстрація" 
+                                 style="max-width: 300px; height: auto; border-radius: 4px; border: 1px solid #ddd;">
+                            <p style="color: #666; margin-top: 0.5rem;">Поточна ілюстрація (буде замінена при завантаженні нової)</p>
+                        </div>
+                    <?php endif; ?>
+                    <input type="file" 
+                           id="illustration" 
+                           name="illustration" 
+                           accept="image/*">
+                    <small style="color: #666; display: block; margin-top: 0.25rem;">
+                        Підтримуються формати: JPG, PNG, GIF
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" 
+                               name="enabled" 
+                               value="1" 
+                               <?= ($this('poem')->get('enabled') ?? 1) ? 'checked' : '' ?>>
+                        Опублікувати на сайті
+                    </label>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit">💾 Зберегти</button>
+                    <a href="/?q=admin/index" class="btn-cancel">Скасувати</a>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
