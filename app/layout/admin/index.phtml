@@ -14,11 +14,11 @@
     </aside>
     
     <main class="admin-main">
-        <?php if (isset($_GET['error'])): ?>
+        <?php if ($this('error')): ?>
             <div class="alert alert-error">
-                <?php if ($_GET['error'] === 'delete_failed'): ?>
+                <?php if ($this('error') === 'delete_failed'): ?>
                     Не вдалося видалити вірш
-                <?php elseif ($_GET['error'] === 'toggle_failed'): ?>
+                <?php elseif ($this('error') === 'toggle_failed'): ?>
                     Не вдалося змінити статус вірша
                 <?php else: ?>
                     Сталася помилка

@@ -27,6 +27,12 @@ class Index extends Handler
         $virshModel = new Virsh();
         $collection = $virshModel->getCollection();
         
-        return $this->render('index', ['collection' => $collection], 'admin');
+        // Get error parameter from request
+        $error = $request->query('error');
+        
+        return $this->render('index', [
+            'collection' => $collection,
+            'error' => $error
+        ], 'admin');
     }
 }
