@@ -60,8 +60,16 @@ class Edit extends Handler
                     
                     // Use finfo for more reliable MIME type detection
                     $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                    if ($finfo === false) {
+                        throw new \Exception('Не вдалося ініціалізувати перевірку типу файлу.');
+                    }
+                    
                     $fileType = finfo_file($finfo, $file['tmp_name']);
                     finfo_close($finfo);
+                    
+                    if ($fileType === false) {
+                        throw new \Exception('Не вдалося визначити тип файлу.');
+                    }
                     
                     $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
                     

@@ -33,7 +33,13 @@
                 <div class="poem-card <?= $poem('enabled') ? '' : 'disabled' ?>">
                     <h3><?= htmlspecialchars($poem('title')) ?></h3>
                     <div class="poem-excerpt">
-                        <?= htmlspecialchars(mb_substr($poem('virsh'), 0, 150)) ?>...
+                        <?php 
+                        $excerpt = mb_substr($poem('virsh'), 0, 150);
+                        echo htmlspecialchars($excerpt);
+                        if (mb_strlen($poem('virsh')) > 150) {
+                            echo '...';
+                        }
+                        ?>
                     </div>
                     
                     <?php if ($poem('illustration')): ?>
