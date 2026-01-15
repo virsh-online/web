@@ -73,9 +73,9 @@ class Edit extends Handler
                         throw new \Exception('Файл занадто великий. Максимум 5MB.');
                     }
                     
-                    // Use relative path from project root
-                    $rootDir = realpath(__DIR__ . '/../../../../../../');
-                    $uploadDir = $rootDir . '/pub/uploads/';
+                    // Use document root to determine upload directory
+                    $docRoot = $_SERVER['DOCUMENT_ROOT'] ?? realpath(__DIR__ . '/../../../../../../pub');
+                    $uploadDir = rtrim($docRoot, '/') . '/uploads/';
                     
                     if (!is_dir($uploadDir)) {
                         mkdir($uploadDir, 0755, true);
@@ -87,6 +87,9 @@ class Edit extends Handler
                     if (move_uploaded_file($file['tmp_name'], $targetPath)) {
                         $data['illustration'] = 'uploads/' . $filename;
                     }
+                } elseif ($file && $file['error'] !== UPLOAD_ERR_NO_FILE && $file['error'] !== UPLOAD_ERR_OK) {
+                    // Handle other upload errors
+                    throw new \Exception('Помилка завантаження файлу: код ' . $file['error']);
                 } elseif ($id && $virshModel->get('illustration')) {
                     // Keep existing illustration if no new file uploaded
                     $data['illustration'] = $virshModel->get('illustration');

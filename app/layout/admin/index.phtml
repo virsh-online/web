@@ -14,6 +14,18 @@
     </aside>
     
     <main class="admin-main">
+        <?php if (isset($_GET['error'])): ?>
+            <div class="alert alert-error">
+                <?php if ($_GET['error'] === 'delete_failed'): ?>
+                    Не вдалося видалити вірш
+                <?php elseif ($_GET['error'] === 'toggle_failed'): ?>
+                    Не вдалося змінити статус вірша
+                <?php else: ?>
+                    Сталася помилка
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+        
         <a href="/?q=admin/edit" class="btn-primary">+ Додати новий вірш</a>
         
         <div class="cards-container">

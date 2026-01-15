@@ -31,7 +31,10 @@ class Delete extends Handler
                 $virshModel = new Virsh();
                 $virshModel->delete((int)$id);
             } catch (\Exception $e) {
-                // Handle error silently or log it
+                // Log error for debugging
+                error_log('Failed to delete poem ID ' . $id . ': ' . $e->getMessage());
+                // Redirect with error parameter
+                return $this->redirect('/?q=admin/index&error=delete_failed');
             }
         }
         

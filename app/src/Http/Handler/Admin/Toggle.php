@@ -31,12 +31,19 @@ class Toggle extends Handler
                 $virshModel = new Virsh();
                 $virshModel->load((int)$id);
                 
+                if (!$virshModel->isLoaded()) {
+                    throw new \Exception('Poem not found');
+                }
+                
                 // Toggle enabled status
                 $currentStatus = $virshModel->get('enabled');
                 $virshModel->set('enabled', $currentStatus ? 0 : 1);
                 $virshModel->save();
             } catch (\Exception $e) {
-                // Handle error silently or log it
+                // Log error for debugging
+                error_log('Failed to toggle poem ID ' . $id . ': ' . $e->getMessage());
+                // Redirect with error parameter
+                return $this->redirect('/?q=admin/index&error=toggle_failed');
             }
         }
         

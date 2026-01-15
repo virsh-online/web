@@ -25,6 +25,11 @@ class Login extends Handler
             $adminUsername = getenv('ADMIN_USERNAME') ?: 'admin';
             $adminPassword = getenv('ADMIN_PASSWORD') ?: 'admin';
             
+            // Log warning if using default credentials
+            if ($adminUsername === 'admin' && $adminPassword === 'admin') {
+                error_log('WARNING: Using default admin credentials. Set ADMIN_USERNAME and ADMIN_PASSWORD environment variables in production.');
+            }
+            
             if ($username === $adminUsername && $password === $adminPassword) {
                 $request->session('admin_user_id', 1);
                 
