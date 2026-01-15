@@ -8,8 +8,8 @@
 <div class="admin-container">
     <aside class="admin-sidebar">
         <nav>
-            <a href="/?q=admin/index" class="active">📝 Поєзія</a>
-            <a href="/?q=admin/logout">🚪 Вихід</a>
+            <a href="/?q=admin/index" class="active" title="Поєзія">≡</a>
+            <a href="/?q=admin/logout" title="Вихід">⎋</a>
         </nav>
     </aside>
     
@@ -26,7 +26,7 @@
             </div>
         <?php endif; ?>
         
-        <a href="/?q=admin/edit" class="btn-primary">+ Додати новий вірш</a>
+        <a href="/?q=admin/edit" class="btn-primary" title="Додати новий вірш">+</a>
         
         <div class="cards-container">
             <?php foreach ($this('collection') as $poem): ?>
@@ -51,18 +51,20 @@
                     <?php endif; ?>
                     
                     <div class="poem-actions">
-                        <a href="/?q=admin/edit&id=<?= $poem('id') ?>" class="btn btn-edit">
-                            ✏️ Редагувати
+                        <a href="/?q=admin/edit&id=<?= $poem('id') ?>" class="btn btn-edit" title="Редагувати">
+                            ✎
                         </a>
                         <a href="/?q=admin/toggle&id=<?= $poem('id') ?>" 
                            class="btn btn-toggle <?= $poem('enabled') ? 'enabled' : '' ?>"
+                           title="<?= $poem('enabled') ? 'Вимкнути' : 'Увімкнути' ?>"
                            onclick="return confirm('Ви впевнені?')">
-                            <?= $poem('enabled') ? '👁️ Вимкнути' : '👁️‍🗨️ Увімкнути' ?>
+                            <?= $poem('enabled') ? '●' : '○' ?>
                         </a>
                         <a href="/?q=admin/delete&id=<?= $poem('id') ?>" 
                            class="btn btn-delete"
+                           title="Видалити"
                            onclick="return confirm('Ви впевнені, що хочете видалити цей вірш?')">
-                            🗑️ Видалити
+                            ×
                         </a>
                     </div>
                 </div>
