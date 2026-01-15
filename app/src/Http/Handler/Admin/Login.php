@@ -20,9 +20,12 @@ class Login extends Handler
             $username = $request->post('username');
             $password = $request->post('password');
             
-            // Simple authentication - in production, use proper password hashing
-            // Default credentials: admin/admin
-            if ($username === 'admin' && $password === 'admin') {
+            // Get credentials from environment or use defaults
+            // For production, set ADMIN_USERNAME and ADMIN_PASSWORD in environment
+            $adminUsername = getenv('ADMIN_USERNAME') ?: 'admin';
+            $adminPassword = getenv('ADMIN_PASSWORD') ?: 'admin';
+            
+            if ($username === $adminUsername && $password === $adminPassword) {
                 $request->session('admin_user_id', 1);
                 
                 // Redirect to intended URL or admin index

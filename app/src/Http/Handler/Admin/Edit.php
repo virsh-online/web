@@ -31,7 +31,14 @@ class Edit extends Handler
         
         // Load existing poem if editing
         if ($id) {
-            $virshModel->load((int)$id);
+            try {
+                $virshModel->load((int)$id);
+                if (!$virshModel->isLoaded()) {
+                    throw new \Exception('Вірш не знайдено');
+                }
+            } catch (\Exception $e) {
+                $error = 'Помилка завантаження: ' . $e->getMessage();
+            }
         }
         
         if ($request->isPost()) {
@@ -46,12 +53,34 @@ class Edit extends Handler
                 // Handle file upload for illustration
                 $file = $request->file('illustration');
                 if ($file && isset($file['tmp_name']) && $file['error'] === UPLOAD_ERR_OK) {
-                    $uploadDir = '/home/runner/work/web/web/pub/uploads/';
+                    // Security validation
+                    $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+                    $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                    $maxSize = 5 * 1024 * 1024; // 5MB
+                    
+                    $fileType = mime_content_type($file['tmp_name']);
+                    $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+                    
+                    if (!in_array($fileType, $allowedTypes)) {
+                        throw new \Exception('Недопустимий тип файлу. Тільки зображення дозволені.');
+                    }
+                    
+                    if (!in_array($extension, $allowedExtensions)) {
+                        throw new \Exception('Недопустиме розширення файлу.');
+                    }
+                    
+                    if ($file['size'] > $maxSize) {
+                        throw new \Exception('Файл занадто великий. Максимум 5MB.');
+                    }
+                    
+                    // Use relative path from project root
+                    $rootDir = realpath(__DIR__ . '/../../../../../../');
+                    $uploadDir = $rootDir . '/pub/uploads/';
+                    
                     if (!is_dir($uploadDir)) {
                         mkdir($uploadDir, 0755, true);
                     }
                     
-                    $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
                     $filename = 'poem_' . time() . '_' . uniqid() . '.' . $extension;
                     $targetPath = $uploadDir . $filename;
                     

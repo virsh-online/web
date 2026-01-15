@@ -2,8 +2,10 @@
 namespace App\Http\Middleware;
 
 use Juzdy\Http\Middleware\MiddlewareInterface;
-use Juzdy\Http\Middleware\RequestHandlerInterface;
+use Juzdy\Http\HandlerInterface;
 use Juzdy\Http\RequestInterface;
+use Juzdy\Http\ResponseInterface;
+use Juzdy\Http\Response;
 
 /**
  * Authentication Middleware
@@ -25,18 +27,17 @@ class AuthMiddleware implements MiddlewareInterface
      * Process the request.
      *
      * @param RequestInterface $request
-     * @param RequestHandlerInterface $handler
-     * @return void
+     * @param HandlerInterface $handler
+     * @return ResponseInterface
      */
-    public function process(RequestInterface $request, RequestHandlerInterface $handler): void
+    public function process(RequestInterface $request, HandlerInterface $handler): ResponseInterface
     {
         // Get current route
         $route = $request->query('q') ?? '';
         
         // Skip authentication for excluded routes
         if ($this->isExcludedRoute($route)) {
-            $handler->handle($request);
-            return;
+            return $handler->handle($request);
         }
         
         // Check if user is authenticated
@@ -46,13 +47,15 @@ class AuthMiddleware implements MiddlewareInterface
             // Store the intended URL for redirect after login
             $request->session('intended_url', $_SERVER['REQUEST_URI'] ?? '/admin/index');
             
-            // Redirect to admin login page (using query string format for compatibility)
-            header('Location: /?q=admin/login');
-            exit;
+            // Return redirect response instead of using header()
+            return (new Response())
+                ->reset()
+                ->status(302)
+                ->header('Location', '/?q=admin/login');
         }
 
         // User is authenticated, continue to next middleware or handler
-        $handler->handle($request);
+        return $handler->handle($request);
     }
 
     /**
