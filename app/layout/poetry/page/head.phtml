@@ -1,0 +1,605 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vintage Typewriter Poetry - Класична типографія</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&family=Anonymous+Pro:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --paper: #f4f1e8;
+            --ink: #2c2416;
+            --ink-faded: #6b5d4f;
+            --highlight: #8b4513;
+            --shadow: rgba(44, 36, 22, 0.15);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --paper: #2a2520;
+                --ink: #e8e0d5;
+                --ink-faded: #a8998a;
+                --highlight: #d4a574;
+                --shadow: rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        body.light {
+            --paper: #f4f1e8;
+            --ink: #2c2416;
+            --ink-faded: #6b5d4f;
+            --highlight: #8b4513;
+            --shadow: rgba(44, 36, 22, 0.15);
+        }
+
+        body.dark {
+            --paper: #2a2520;
+            --ink: #e8e0d5;
+            --ink-faded: #a8998a;
+            --highlight: #d4a574;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: 'Courier Prime', 'Courier New', monospace;
+            background: var(--paper);
+            color: var(--ink);
+            line-height: 1.8;
+            transition: all 0.3s ease;
+        }
+
+        /* Paper texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0,0,0,.02) 2px,
+                    rgba(0,0,0,.02) 3px
+                );
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.5;
+        }
+
+        /* Fixed Header */
+        .typewriter-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--paper);
+            border-bottom: 1px solid var(--ink-faded);
+            padding: 15px 0;
+            z-index: 1000;
+        }
+
+        .header-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-type {
+            font-family: 'Special Elite', cursive;
+            font-size: 1.5rem;
+            color: var(--ink);
+            text-decoration: none;
+            letter-spacing: 2px;
+            position: relative;
+        }
+
+        .logo-type::before {
+            content: '❡';
+            margin-right: 8px;
+            font-size: 1.3rem;
+            color: var(--highlight);
+        }
+
+        .nav-vintage {
+            display: flex;
+            gap: 5px;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-vintage a {
+            color: var(--ink);
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 6px 12px;
+            border: 1px solid var(--ink-faded);
+            background: transparent;
+            font-family: 'Anonymous Pro', monospace;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .nav-vintage a::before {
+            content: '§';
+            margin-right: 5px;
+            color: var(--highlight);
+        }
+
+        .nav-vintage a:hover {
+            background: var(--ink);
+            color: var(--paper);
+        }
+
+        .search-vintage {
+            position: relative;
+        }
+
+        .search-vintage::before {
+            content: '⌕';
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--ink-faded);
+            font-size: 1.2rem;
+        }
+
+        .search-vintage input {
+            background: transparent;
+            border: 1px solid var(--ink-faded);
+            padding: 6px 12px 6px 30px;
+            color: var(--ink);
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.85rem;
+            width: 160px;
+        }
+
+        .search-vintage input::placeholder {
+            color: var(--ink-faded);
+        }
+
+        .theme-vintage {
+            display: flex;
+            gap: 5px;
+        }
+
+        .theme-vintage-btn {
+            background: transparent;
+            border: 1px solid var(--ink-faded);
+            color: var(--ink);
+            padding: 6px 10px;
+            cursor: pointer;
+            font-family: 'Anonymous Pro', monospace;
+            font-size: 0.7rem;
+            transition: all 0.2s ease;
+        }
+
+        .theme-vintage-btn:hover, .theme-vintage-btn.active {
+            background: var(--ink);
+            color: var(--paper);
+        }
+
+        /* Burger Menu */
+        .burger-menu {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+            padding: 8px;
+            border: 1px solid var(--ink-faded);
+            background: transparent;
+            z-index: 1001;
+        }
+
+        .burger-line {
+            width: 22px;
+            height: 2px;
+            background: var(--ink);
+            transition: all 0.3s ease;
+        }
+
+        .burger-menu.active .burger-line:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        .burger-menu.active .burger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .burger-menu.active .burger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Mobile nav wrapper - transparent on desktop, becomes dropdown on mobile */
+        .mobile-nav-wrapper {
+            display: contents;
+        }
+
+        /* Main Content */
+        .content-vintage {
+            position: relative;
+            z-index: 2;
+            padding-top: 100px;
+            padding-bottom: 60px;
+            max-width: 900px;
+            margin: 0 auto;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .poem-vintage {
+            margin-bottom: 60px;
+            page-break-inside: avoid;
+        }
+
+        .poem-sheet {
+            background: var(--paper);
+            /*border: 1px solid var(--ink-faded);*/
+            padding: 30px;
+            position: relative;
+        }
+
+        /* Decorative corners */
+        .poem-sheet::before,
+        .poem-sheet::after {
+            content: '⸙';
+            position: absolute;
+            font-size: 1.2rem;
+            color: var(--highlight);
+            opacity: 0.6;
+        }
+
+        .poem-sheet::before {
+            top: 10px;
+            left: 10px;
+        }
+
+        .poem-sheet::after {
+            bottom: 10px;
+            right: 10px;
+            transform: rotate(180deg);
+        }
+
+        .poem-meta {
+            text-align: right;
+            margin-bottom: 20px;
+            font-family: 'Anonymous Pro', monospace;
+            font-size: 0.8rem;
+            color: var(--ink-faded);
+        }
+
+        .poem-meta::before {
+            content: '№ ';
+        }
+
+        .poem-header {
+            text-align: center;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .poem-header::before,
+        .poem-header::after {
+            content: '※';
+            color: var(--highlight);
+            font-size: 1rem;
+            margin: 0 10px;
+            opacity: 0.7;
+        }
+
+        .poem-title-vintage {
+            font-family: 'Special Elite', cursive;
+            font-size: 1.6rem;
+            color: var(--ink);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: inline;
+        }
+
+        .poem-body-vintage {
+            font-size: 1rem;
+            line-height: 2;
+            white-space: pre-line;
+            text-align: justify;
+            text-indent: 2em;
+            position: relative;
+            padding-left: 30px;
+            border-left: 1px solid var(--ink-faded);
+        }
+
+        /* Paragraph marks */
+        .poem-body-vintage::before {
+            content: '¶';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            font-size: 1.2rem;
+            color: var(--highlight);
+            font-weight: bold;
+            opacity: 0.7;
+        }
+
+        .verse-line {
+            position: relative;
+        }
+
+        .verse-line::after {
+            content: '⁂';
+            position: absolute;
+            right: -30px;
+            color: var(--ink-faded);
+            opacity: 0.3;
+            font-size: 0.8rem;
+        }
+
+        .poem-footer {
+            margin-top: 20px;
+            text-align: right;
+            font-style: italic;
+            color: var(--ink-faded);
+            font-size: 0.9rem;
+        }
+
+        .poem-footer::before {
+            content: '❧ ';
+            color: var(--highlight);
+        }
+
+        .video-vintage {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin-top: 25px;
+            border: 1px solid var(--ink-faded);
+        }
+
+        .video-vintage iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Section dividers */
+        .section-divider {
+            text-align: center;
+            margin: 50px 0;
+            color: var(--highlight);
+            font-size: 1.2rem;
+            letter-spacing: 15px;
+            opacity: 0.7;
+        }
+
+        .section-divider::before,
+        .section-divider::after {
+            content: '━━';
+            color: var(--ink-faded);
+            font-size: 0.7rem;
+            margin: 0 15px;
+        }
+
+        /* Footer */
+        .footer-vintage {
+            position: relative;
+            z-index: 2;
+            background: var(--paper);
+            border-top: 1px solid var(--ink-faded);
+            padding: 40px 20px;
+        }
+
+        .footer-columns {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .footer-col h3 {
+            font-family: 'Special Elite', cursive;
+            color: var(--highlight);
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+
+        .footer-col h3::before {
+            content: '§ ';
+        }
+
+        .footer-col p, .footer-col a {
+            color: var(--ink-faded);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+        }
+
+        .footer-col a:hover {
+            color: var(--ink);
+            text-decoration: underline;
+        }
+
+        .footer-copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--ink-faded);
+            color: var(--ink-faded);
+            font-size: 0.8rem;
+            font-family: 'Anonymous Pro', monospace;
+        }
+
+        .footer-copyright::before {
+            content: '© ';
+            font-size: 1rem;
+        }
+
+        @media (max-width: 968px) {
+            .header-wrapper {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .burger-menu {
+                display: flex;
+            }
+
+            .mobile-nav-wrapper {
+                display: none;
+                position: fixed;
+                top: 65px;
+                left: 0;
+                right: 0;
+                background: var(--paper);
+                border-bottom: 1px solid var(--ink-faded);
+                padding: 15px;
+                flex-direction: column;
+                gap: 12px;
+                z-index: 999;
+            }
+
+            .mobile-nav-wrapper.active {
+                display: flex;
+            }
+
+            .nav-vintage {
+                flex-direction: column;
+                width: 100%;
+                gap: 10px;
+            }
+
+            .nav-vintage li {
+                width: 100%;
+            }
+
+            .nav-vintage a {
+                display: block;
+                width: 100%;
+                text-align: center;
+            }
+
+            .search-vintage {
+                width: 100%;
+            }
+
+            .search-vintage input {
+                width: 100%;
+            }
+
+            .theme-vintage {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .poem-sheet {
+                padding: 20px 15px;
+            }
+
+            .poem-title-vintage {
+                font-size: 1.3rem;
+            }
+
+            .poem-body-vintage {
+                padding-left: 25px;
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .poem-body-vintage {
+                text-align: left;
+            }
+
+            .logo-type {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* Typewriter animation for title */
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        .typewriter-effect {
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typing 2s steps(40, end);
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeButtons = document.querySelectorAll('.theme-vintage-btn');
+            const body = document.body;
+
+            const savedTheme = localStorage.getItem('theme') || 'system';
+            applyTheme(savedTheme);
+
+            themeButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const theme = btn.dataset.theme;
+                    applyTheme(theme);
+                    localStorage.setItem('theme', theme);
+                });
+            });
+
+            function applyTheme(theme) {
+                themeButtons.forEach(btn => btn.classList.remove('active'));
+                const themeElement = document.querySelector(`[data-theme="${theme}"]`);
+                if (themeElement) {
+                    themeElement.classList.add('active');
+                }
+                
+                body.classList.remove('light', 'dark');
+                if (theme !== 'system') {
+                    body.classList.add(theme);
+                }
+            }
+
+            // Burger menu toggle
+            const burgerMenu = document.querySelector('.burger-menu');
+            const mobileNavWrapper = document.querySelector('.mobile-nav-wrapper');
+
+            if (burgerMenu && mobileNavWrapper) {
+                burgerMenu.addEventListener('click', () => {
+                    burgerMenu.classList.toggle('active');
+                    mobileNavWrapper.classList.toggle('active');
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.header-wrapper')) {
+                        burgerMenu.classList.remove('active');
+                        mobileNavWrapper.classList.remove('active');
+                    }
+                });
+
+                // Close menu when clicking on a link
+                const navLinks = document.querySelectorAll('.nav-vintage a');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        burgerMenu.classList.remove('active');
+                        mobileNavWrapper.classList.remove('active');
+                    });
+                });
+            }
+        });
+    </script>
+</head>
