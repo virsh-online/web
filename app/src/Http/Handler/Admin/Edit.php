@@ -58,7 +58,11 @@ class Edit extends Handler
                     $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
                     $maxSize = 5 * 1024 * 1024; // 5MB
                     
-                    $fileType = mime_content_type($file['tmp_name']);
+                    // Use finfo for more reliable MIME type detection
+                    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                    $fileType = finfo_file($finfo, $file['tmp_name']);
+                    finfo_close($finfo);
+                    
                     $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
                     
                     if (!in_array($fileType, $allowedTypes)) {
@@ -78,15 +82,19 @@ class Edit extends Handler
                     $uploadDir = rtrim($docRoot, '/') . '/uploads/';
                     
                     if (!is_dir($uploadDir)) {
-                        mkdir($uploadDir, 0755, true);
+                        if (!mkdir($uploadDir, 0755, true)) {
+                            throw new \Exception('Не вдалося створити директорію для завантажень.');
+                        }
                     }
                     
                     $filename = 'poem_' . time() . '_' . uniqid() . '.' . $extension;
                     $targetPath = $uploadDir . $filename;
                     
-                    if (move_uploaded_file($file['tmp_name'], $targetPath)) {
-                        $data['illustration'] = 'uploads/' . $filename;
+                    if (!move_uploaded_file($file['tmp_name'], $targetPath)) {
+                        throw new \Exception('Не вдалося завантажити файл.');
                     }
+                    
+                    $data['illustration'] = 'uploads/' . $filename;
                 } elseif ($file && $file['error'] !== UPLOAD_ERR_NO_FILE && $file['error'] !== UPLOAD_ERR_OK) {
                     // Handle other upload errors
                     throw new \Exception('Помилка завантаження файлу: код ' . $file['error']);

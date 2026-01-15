@@ -70,8 +70,8 @@ class AuthMiddleware implements MiddlewareInterface
         
         foreach (self::EXCLUDED_ROUTES as $excludedRoute) {
             $excludedRoute = strtolower(trim($excludedRoute, '/'));
-            // Exact match or starts with the route followed by a slash
-            if ($route === $excludedRoute || strpos($route, $excludedRoute . '/') === 0) {
+            // Exact match only - no partial matches allowed
+            if ($route === $excludedRoute) {
                 return true;
             }
         }
