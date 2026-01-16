@@ -8,7 +8,7 @@ foreach ($this('collection') as $poem): ?>
             </div>
             <?php if ($poem('illustration')): ?>
             <div class="poem-body-illustration">
-                <img src="/<?= htmlspecialchars($poem('illustration')) ?>" alt="Ілюстрація до вірша">
+                <img src="<?= htmlspecialchars($poem->getIllustrationUrl()) ?>" alt="Ілюстрація до вірша">
             </div>
             <?php endif; ?>
             <div class="poem-body-vintage"><?= htmlspecialchars($poem('virsh')) ?></div>

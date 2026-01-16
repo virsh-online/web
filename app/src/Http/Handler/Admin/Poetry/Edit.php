@@ -106,6 +106,12 @@ class Edit extends AdminHandler
     private function uploadIllustration(RequestInterface $request, ?int $id, Virsh $virshModel): string
     {
         $file = $request->file('illustration');
+
+        $file = is_array($file) && isset($file[0]) ? $file[0] : null;
+
+        if (!is_array($file)) {
+            throw new \Exception('Неправильний формат файлу завантаження.');
+        }
         
         // If no file was uploaded, keep existing illustration
         if (!$file || $file['error'] === UPLOAD_ERR_NO_FILE) {
@@ -171,7 +177,6 @@ class Edit extends AdminHandler
             throw new \Exception('Не вдалося завантажити файл.');
         }
         
-        // Return relative path for database storage
-        return 'uploads/' . $filename;
+        return $filename;
     }
 }
