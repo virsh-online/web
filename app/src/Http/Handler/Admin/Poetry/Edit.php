@@ -33,12 +33,14 @@ class Edit extends AdminHandler
         
         if ($request->isPost()) {
             try {
+                $illustrationPath = $this->uploadIllustration($request, $id, $virshModel);
+                
                 $data = [
                     'title' => $request->post('title'),
                     'virsh' => $request->post('virsh'),
                     'youtube' => $request->post('youtube'),
                     'enabled' => $request->post('enabled') ? 1 : 0,
-                    'illustration' => ''//$this->uploadIllustration($request, $id, $virshModel),
+                    'illustration' => $illustrationPath,
                 ];
                 
                 
@@ -86,80 +88,90 @@ class Edit extends AdminHandler
 
     private function sanitizeInput(array $data): array
     {
-        return [
+        $sanitized = [
             'title' => htmlspecialchars(trim($data['title'])),
             'virsh' => htmlspecialchars(trim($data['virsh'])),
             'youtube' => filter_var(trim($data['youtube']), FILTER_SANITIZE_URL),
             'enabled' => isset($data['enabled']) && $data['enabled'] ? 1 : 0,
         ];
+        
+        // Only include illustration if it's set
+        if (isset($data['illustration'])) {
+            $sanitized['illustration'] = $data['illustration'];
+        }
+        
+        return $sanitized;
     }
 
     private function uploadIllustration(RequestInterface $request, ?int $id, Virsh $virshModel): string
     {
-        // Handle file upload for illustration
-                $file = $request->file('illustration');
-                if ($file && isset($file['tmp_name']) && $file['error'] === UPLOAD_ERR_OK) {
-                    // Security validation
-                    $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
-                    $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-                    $maxSize = 5 * 1024 * 1024; // 5MB
-                    
-                    // Use finfo for more reliable MIME type detection
-                    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                    if ($finfo === false) {
-                        throw new \Exception('Не вдалося ініціалізувати перевірку типу файлу.');
-                    }
-                    
-                    $fileType = finfo_file($finfo, $file['tmp_name']);
-                    finfo_close($finfo);
-                    
-                    if ($fileType === false) {
-                        throw new \Exception('Не вдалося визначити тип файлу.');
-                    }
-                    
-                    $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-                    
-                    if (!in_array($fileType, $allowedTypes)) {
-                        throw new \Exception('Недопустимий тип файлу. Тільки зображення дозволені.');
-                    }
-                    
-                    if (!in_array($extension, $allowedExtensions)) {
-                        throw new \Exception('Недопустиме розширення файлу.');
-                    }
-                    
-                    if ($file['size'] > $maxSize) {
-                        throw new \Exception('Файл занадто великий. Максимум 5MB.');
-                    }
-                    
-                    $uploadDir = Config::get('path.uploads');
-                    if (!is_dir($uploadDir)) {
-                        if (!mkdir($uploadDir, 0755, true)) {
-                            throw new \Exception('Не вдалося створити директорію для завантажень.');
-                        }
-                    }
-                    
-                    if (!is_dir($uploadDir)) {
-                        if (!mkdir($uploadDir, 0755, true)) {
-                            throw new \Exception('Не вдалося створити директорію для завантажень.');
-                        }
-                    }
-                    
-                    $filename = 'poem_' . time() . '_' . uniqid() . '.' . $extension;
-                    $targetPath = $uploadDir . $filename;
-                    
-                    if (!move_uploaded_file($file['tmp_name'], $targetPath)) {
-                        throw new \Exception('Не вдалося завантажити файл.');
-                    }
-                    
-                    $illustrationPath = 'uploads/' . $filename;
-                } elseif ($file && $file['error'] !== UPLOAD_ERR_NO_FILE && $file['error'] !== UPLOAD_ERR_OK) {
-                    // Handle other upload errors
-                    throw new \Exception('Помилка завантаження файлу: код ' . $file['error']);
-                } elseif ($id && $virshModel->get('illustration')) {
-                    // Keep existing illustration if no new file uploaded
-                    $illustrationPath = $virshModel->get('illustration');
-                }
-
-        return $illustrationPath ?? '';
+        $file = $request->file('illustration');
+        
+        // If no file was uploaded, keep existing illustration
+        if (!$file || $file['error'] === UPLOAD_ERR_NO_FILE) {
+            return $id && $virshModel->get('illustration') ? $virshModel->get('illustration') : '';
+        }
+        
+        // Check for upload errors
+        if ($file['error'] !== UPLOAD_ERR_OK) {
+            throw new \Exception('Помилка завантаження файлу: код ' . $file['error']);
+        }
+        
+        // Security validation
+        $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        $maxSize = 5 * 1024 * 1024; // 5MB
+        
+        // Use finfo for reliable MIME type detection
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        if ($finfo === false) {
+            throw new \Exception('Не вдалося ініціалізувати перевірку типу файлу.');
+        }
+        
+        $fileType = finfo_file($finfo, $file['tmp_name']);
+        finfo_close($finfo);
+        
+        if ($fileType === false) {
+            throw new \Exception('Не вдалося визначити тип файлу.');
+        }
+        
+        $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        
+        if (!in_array($fileType, $allowedTypes)) {
+            throw new \Exception('Недопустимий тип файлу. Тільки зображення дозволені (JPG, PNG, GIF, WEBP).');
+        }
+        
+        if (!in_array($extension, $allowedExtensions)) {
+            throw new \Exception('Недопустиме розширення файлу.');
+        }
+        
+        if ($file['size'] > $maxSize) {
+            throw new \Exception('Файл занадто великий. Максимум 5MB.');
+        }
+        
+        // Get upload directory from configuration
+        $uploadDir = Config::get('path.uploads');
+        if (!$uploadDir) {
+            throw new \Exception('Конфігурація директорії завантажень не знайдена.');
+        }
+        
+        // Ensure upload directory exists
+        if (!is_dir($uploadDir)) {
+            if (!mkdir($uploadDir, 0755, true)) {
+                throw new \Exception('Не вдалося створити директорію для завантажень.');
+            }
+        }
+        
+        // Generate unique filename
+        $filename = 'poem_' . time() . '_' . uniqid() . '.' . $extension;
+        $targetPath = $uploadDir . '/' . $filename;
+        
+        // Move uploaded file
+        if (!move_uploaded_file($file['tmp_name'], $targetPath)) {
+            throw new \Exception('Не вдалося завантажити файл.');
+        }
+        
+        // Return relative path for database storage
+        return 'uploads/' . $filename;
     }
 }
