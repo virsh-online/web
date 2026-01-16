@@ -12,14 +12,24 @@ if (php_sapi_name() !== 'cli') {
     exit('This script can only be run from the command line.' . PHP_EOL);
 }
 
-require_once __DIR__ . '/../vendor/autoload.php';
+// Load database configuration
+$configFile = __DIR__ . '/../etc/config/z-db.local.php';
+if (!file_exists($configFile)) {
+    $configFile = __DIR__ . '/../etc/config/db.php';
+}
 
-/**
- * Initialize configuration
- */
-\Juzdy\Config::init(__DIR__ . '/../etc/config/*.php');
+if (!file_exists($configFile)) {
+    echo "Error: Database configuration file not found." . PHP_EOL;
+    exit(1);
+}
 
-use App\Model\AdminUser;
+$config = require $configFile;
+$dbConfig = $config['db'] ?? null;
+
+if (!$dbConfig) {
+    echo "Error: Invalid database configuration." . PHP_EOL;
+    exit(1);
+}
 
 // Function to prompt for input
 function prompt($message, $hidden = false) {
@@ -83,33 +93,50 @@ if (empty($fullname)) {
 }
 
 try {
-    $adminUserModel = new AdminUser();
+    // Connect to database
+    $dsn = sprintf(
+        "mysql:host=%s;port=%d;dbname=%s;charset=utf8mb4",
+        $dbConfig['host'],
+        $dbConfig['port'],
+        $dbConfig['database']
+    );
+    
+    $pdo = new PDO($dsn, $dbConfig['user'], $dbConfig['password'], [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ]);
     
     // Check if user already exists
-    $existingUser = $adminUserModel->findByEmail($email);
-    if ($existingUser) {
+    $stmt = $pdo->prepare("SELECT id FROM admin_user WHERE email = ?");
+    $stmt->execute([$email]);
+    
+    if ($stmt->fetch()) {
         echo "Error: User with email '$email' already exists." . PHP_EOL;
         exit(1);
     }
     
-    // Create new admin user
-    $adminUserModel->setData([
-        'email' => $email,
-        'fullname' => $fullname,
-        'enabled' => 1
-    ]);
+    // Hash password
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
     
-    $adminUserModel->setPassword($password);
-    $adminUserModel->save();
+    // Insert new admin user
+    $stmt = $pdo->prepare(
+        "INSERT INTO admin_user (email, password, fullname, enabled) VALUES (?, ?, ?, 1)"
+    );
+    $stmt->execute([$email, $hashedPassword, $fullname]);
     
     echo PHP_EOL . "Success! Admin user created:" . PHP_EOL;
     echo "  Email: $email" . PHP_EOL;
     echo "  Full name: $fullname" . PHP_EOL;
     echo "  Status: Enabled" . PHP_EOL;
+    echo PHP_EOL;
     
     exit(0);
     
-} catch (\Exception $e) {
+} catch (PDOException $e) {
+    echo "Database error: " . $e->getMessage() . PHP_EOL;
+    error_log("Create admin user error: " . $e->getMessage());
+    exit(1);
+} catch (Exception $e) {
     echo "Error creating admin user: " . $e->getMessage() . PHP_EOL;
     error_log("Create admin user error: " . $e->getMessage());
     exit(1);
