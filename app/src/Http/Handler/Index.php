@@ -15,10 +15,13 @@ class Index extends Handler
      */
     public function handle(RequestInterface $request): ResponseInterface
     {
+        $collection = (new Virsh())->getCollection();
+        $collection->addFilter(['enabled' => 1]);
+        
         return
             $this->render(
                 'landing', 
-                ['collection' => (new Virsh())->getCollection()], 
+                ['collection' => $collection], 
                 'poetry'
             );
     }
