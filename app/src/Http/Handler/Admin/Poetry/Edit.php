@@ -97,7 +97,7 @@ class Edit extends AdminHandler
         $sanitized = [
             'title' => htmlspecialchars(trim($data['title'])),
             'virsh' => htmlspecialchars(trim($data['virsh'])),
-            'youtube' => filter_var(trim($data['youtube']), FILTER_SANITIZE_URL),
+            'youtube' => trim($data['youtube']),
             'enabled' => isset($data['enabled']) && $data['enabled'] ? 1 : 0,
             'illustration_enabled' => isset($data['illustration_enabled']) && $data['illustration_enabled'] ? 1 : 0,
         ];
