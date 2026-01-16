@@ -15,12 +15,11 @@ class AdminUser extends Model
      */
     public function findByEmail(string $email): ?AdminUser
     {
-        $collection = $this->getCollection([
-            'email' => $email
-        ]);
+        $collection = $this->getCollection();
+        $collection->addFilter(['email' => $email]);
         
-        if (!empty($collection)) {
-            return $collection[0];
+        if (!$collection->isEmpty()) {
+            return $collection->getFirstItem();
         }
         
         return null;
