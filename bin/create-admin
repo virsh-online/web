@@ -1,0 +1,143 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Create Admin User CLI Script
+ * 
+ * Usage: php bin/create-admin [email] [password] [fullname]
+ * 
+ * If no arguments provided, will prompt for input interactively.
+ */
+
+if (php_sapi_name() !== 'cli') {
+    exit('This script can only be run from the command line.' . PHP_EOL);
+}
+
+// Load database configuration
+$configFile = __DIR__ . '/../etc/config/z-db.local.php';
+if (!file_exists($configFile)) {
+    $configFile = __DIR__ . '/../etc/config/db.php';
+}
+
+if (!file_exists($configFile)) {
+    echo "Error: Database configuration file not found." . PHP_EOL;
+    exit(1);
+}
+
+$config = require $configFile;
+$dbConfig = $config['db'] ?? null;
+
+if (!$dbConfig) {
+    echo "Error: Invalid database configuration." . PHP_EOL;
+    exit(1);
+}
+
+// Function to prompt for input
+function prompt($message, $hidden = false) {
+    echo $message;
+    if ($hidden) {
+        // Hide password input on Unix-like systems
+        if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
+            system('stty -echo');
+            $input = trim(fgets(STDIN));
+            system('stty echo');
+            echo PHP_EOL;
+        } else {
+            $input = trim(fgets(STDIN));
+        }
+    } else {
+        $input = trim(fgets(STDIN));
+    }
+    return $input;
+}
+
+// Get arguments from command line or prompt
+$email = $argv[1] ?? null;
+$password = $argv[2] ?? null;
+$fullname = $argv[3] ?? null;
+
+echo "=== Create Admin User ===" . PHP_EOL . PHP_EOL;
+
+// Prompt for missing arguments
+if (empty($email)) {
+    $email = prompt("Email: ");
+}
+
+if (empty($password)) {
+    $password = prompt("Password (min 8 characters): ", true);
+    $passwordConfirm = prompt("Confirm password: ", true);
+    
+    if ($password !== $passwordConfirm) {
+        echo "Error: Passwords do not match." . PHP_EOL;
+        exit(1);
+    }
+}
+
+if (empty($fullname)) {
+    $fullname = prompt("Full name: ");
+}
+
+// Validate input
+if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo "Error: Valid email is required." . PHP_EOL;
+    exit(1);
+}
+
+if (strlen($password) < 8) {
+    echo "Error: Password must be at least 8 characters long." . PHP_EOL;
+    exit(1);
+}
+
+if (empty($fullname)) {
+    echo "Error: Full name is required." . PHP_EOL;
+    exit(1);
+}
+
+try {
+    // Connect to database
+    $dsn = sprintf(
+        "mysql:host=%s;port=%d;dbname=%s;charset=utf8mb4",
+        $dbConfig['host'],
+        $dbConfig['port'],
+        $dbConfig['database']
+    );
+    
+    $pdo = new PDO($dsn, $dbConfig['user'], $dbConfig['password'], [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ]);
+    
+    // Check if user already exists
+    $stmt = $pdo->prepare("SELECT id FROM admin_user WHERE email = ?");
+    $stmt->execute([$email]);
+    
+    if ($stmt->fetch()) {
+        echo "Error: User with email '$email' already exists." . PHP_EOL;
+        exit(1);
+    }
+    
+    // Hash password
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    
+    // Insert new admin user
+    $stmt = $pdo->prepare(
+        "INSERT INTO admin_user (email, password, fullname, enabled) VALUES (?, ?, ?, 1)"
+    );
+    $stmt->execute([$email, $hashedPassword, $fullname]);
+    
+    echo PHP_EOL . "Success! Admin user created:" . PHP_EOL;
+    echo "  Email: $email" . PHP_EOL;
+    echo "  Full name: $fullname" . PHP_EOL;
+    echo "  Status: Enabled" . PHP_EOL;
+    echo PHP_EOL;
+    
+    exit(0);
+    
+} catch (PDOException $e) {
+    echo "Database error: " . $e->getMessage() . PHP_EOL;
+    error_log("Create admin user error: " . $e->getMessage());
+    exit(1);
+} catch (Exception $e) {
+    echo "Error creating admin user: " . $e->getMessage() . PHP_EOL;
+    error_log("Create admin user error: " . $e->getMessage());
+    exit(1);
+}
