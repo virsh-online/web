@@ -1,4 +1,7 @@
 <?php
+
+use App\Http\Handler\Admin\AuthintecableInterface;
+
 return [
     'middleware' => [
         
@@ -28,6 +31,9 @@ return [
              *  \Bar\Foo\RequestLoggingMiddleware::class,
              * ],
              */
+            AuthintecableInterface::class => [
+                \App\Http\Middleware\AuthMiddleware::class,
+            ],
         ],
     ],
 ];

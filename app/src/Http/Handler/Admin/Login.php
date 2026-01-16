@@ -36,7 +36,7 @@ class Login extends Handler
                         $request->session('admin_user_id', $user->get('id'));
                         
                         // Redirect to intended URL or admin index
-                        $intendedUrl = $request->session('intended_url') ?? '/?q=admin/index';
+                        $intendedUrl = $request->session('intended_url') ?? '/admin/index';
                         $request->session('intended_url', null);
                         
                         return $this->redirect($intendedUrl);
@@ -50,6 +50,6 @@ class Login extends Handler
             }
         }
         
-        return $this->render('login', ['error' => $error], 'admin');
+        return $this->render('login', ['error' => $error], 'admin/alone');
     }
 }

@@ -1,24 +1,14 @@
 <?php
-namespace App\Http\Handler\Admin;
+namespace App\Http\Handler\Admin\Poetry;
 
+use App\Http\Handler\Admin\AdminHandler;
 use App\Model\Virsh;
-use App\Http\Middleware\AuthMiddleware;
-use Juzdy\Http\Handler;
+use Juzdy\Config;
 use Juzdy\Http\RequestInterface;
 use Juzdy\Http\ResponseInterface;
 
-class Edit extends Handler
+class Edit extends AdminHandler
 {
-    public function __construct() {}
-
-    /**
-     * Register middleware for authentication
-     */
-    protected function registerMiddleware(): void
-    {
-        $this->addMiddleware(new AuthMiddleware());
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -48,9 +38,65 @@ class Edit extends Handler
                     'virsh' => $request->post('virsh'),
                     'youtube' => $request->post('youtube'),
                     'enabled' => $request->post('enabled') ? 1 : 0,
+                    'illustration' => ''//$this->uploadIllustration($request, $id, $virshModel),
                 ];
                 
-                // Handle file upload for illustration
+                
+                // Validate input
+                $validationErrors = $this->validateInput($data);
+                if (!empty($validationErrors)) {
+                    throw new \Exception(implode('; ', $validationErrors));
+                }
+                
+                $data = $this->sanitizeInput($data);
+                
+                $virshModel->setData($data)->save();
+                $success = 'Вірш успішно збережено';
+                
+                // Redirect to list after successful save
+                return $this->redirect('/?q=admin/index');
+                
+            } catch (\Exception $e) {
+                $error = 'Помилка збереження: ' . $e->getMessage();
+            }
+        }
+        
+        return $this->render('edit', [
+            'poem' => $virshModel,
+            'error' => $error,
+            'success' => $success,
+            'isNew' => !$id
+        ], 'admin');
+    }
+
+    private function validateInput(array $data): array
+    {
+        $errors = [];
+        
+        if (empty($data['title'])) {
+            $errors[] = 'Заголовок не може бути порожнім';
+        }
+        
+        if (empty($data['virsh'])) {
+            $errors[] = 'Вірш не може бути порожнім';
+        }
+        
+        return $errors;
+    }
+
+    private function sanitizeInput(array $data): array
+    {
+        return [
+            'title' => htmlspecialchars(trim($data['title'])),
+            'virsh' => htmlspecialchars(trim($data['virsh'])),
+            'youtube' => filter_var(trim($data['youtube']), FILTER_SANITIZE_URL),
+            'enabled' => isset($data['enabled']) && $data['enabled'] ? 1 : 0,
+        ];
+    }
+
+    private function uploadIllustration(RequestInterface $request, ?int $id, Virsh $virshModel): string
+    {
+        // Handle file upload for illustration
                 $file = $request->file('illustration');
                 if ($file && isset($file['tmp_name']) && $file['error'] === UPLOAD_ERR_OK) {
                     // Security validation
@@ -85,9 +131,12 @@ class Edit extends Handler
                         throw new \Exception('Файл занадто великий. Максимум 5MB.');
                     }
                     
-                    // Use document root to determine upload directory
-                    $docRoot = $_SERVER['DOCUMENT_ROOT'] ?? realpath(__DIR__ . '/../../../../../../pub');
-                    $uploadDir = rtrim($docRoot, '/') . '/uploads/';
+                    $uploadDir = Config::get('path.uploads');
+                    if (!is_dir($uploadDir)) {
+                        if (!mkdir($uploadDir, 0755, true)) {
+                            throw new \Exception('Не вдалося створити директорію для завантажень.');
+                        }
+                    }
                     
                     if (!is_dir($uploadDir)) {
                         if (!mkdir($uploadDir, 0755, true)) {
@@ -102,31 +151,15 @@ class Edit extends Handler
                         throw new \Exception('Не вдалося завантажити файл.');
                     }
                     
-                    $data['illustration'] = 'uploads/' . $filename;
+                    $illustrationPath = 'uploads/' . $filename;
                 } elseif ($file && $file['error'] !== UPLOAD_ERR_NO_FILE && $file['error'] !== UPLOAD_ERR_OK) {
                     // Handle other upload errors
                     throw new \Exception('Помилка завантаження файлу: код ' . $file['error']);
                 } elseif ($id && $virshModel->get('illustration')) {
                     // Keep existing illustration if no new file uploaded
-                    $data['illustration'] = $virshModel->get('illustration');
+                    $illustrationPath = $virshModel->get('illustration');
                 }
-                
-                $virshModel->setData($data)->save();
-                $success = 'Вірш успішно збережено';
-                
-                // Redirect to list after successful save
-                return $this->redirect('/?q=admin/index');
-                
-            } catch (\Exception $e) {
-                $error = 'Помилка збереження: ' . $e->getMessage();
-            }
-        }
-        
-        return $this->render('edit', [
-            'poem' => $virshModel,
-            'error' => $error,
-            'success' => $success,
-            'isNew' => !$id
-        ], 'admin');
+
+        return $illustrationPath ?? '';
     }
 }

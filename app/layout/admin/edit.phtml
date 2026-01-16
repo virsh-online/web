@@ -31,17 +31,17 @@
                 
                 <div class="form-group">
                     <label for="youtube">YouTube посилання:</label>
-                    <input type="url" 
+                    <input type="text" 
                            id="youtube" 
                            name="youtube" 
                            value="<?= htmlspecialchars($this('poem')->get('youtube') ?? '') ?>"
-                           placeholder="https://www.youtube.com/embed/...">
+                           placeholder="VIDEO ID">
                     <small style="color: #666; display: block; margin-top: 0.25rem;">
-                        Формат: https://www.youtube.com/embed/VIDEO_ID
+                        Формат: VIDEO_ID
                     </small>
                 </div>
                 
-                <div class="form-group">
+                <!--div class="form-group">
                     <label for="illustration">Ілюстрація:</label>
                     <?php if ($this('poem')->get('illustration')): ?>
                         <div style="margin-bottom: 1rem;">
@@ -58,7 +58,7 @@
                     <small style="color: #666; display: block; margin-top: 0.25rem;">
                         Підтримуються формати: JPG, PNG, GIF, WEBP
                     </small>
-                </div>
+                </div-->
                 
                 <div class="form-group">
                     <label>

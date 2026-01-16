@@ -2,23 +2,11 @@
 namespace App\Http\Handler\Admin;
 
 use App\Model\Virsh;
-use App\Http\Middleware\AuthMiddleware;
-use Juzdy\Http\Handler;
 use Juzdy\Http\RequestInterface;
 use Juzdy\Http\ResponseInterface;
 
-class Index extends Handler
+class Index extends AdminHandler
 {
-    public function __construct() {}
-
-    /**
-     * Register middleware for authentication
-     */
-    protected function registerMiddleware(): void
-    {
-        $this->addMiddleware(new AuthMiddleware());
-    }
-
     /**
      * {@inheritdoc}
      */

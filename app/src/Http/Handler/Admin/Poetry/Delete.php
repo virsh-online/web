@@ -1,24 +1,13 @@
 <?php
-namespace App\Http\Handler\Admin;
+namespace App\Http\Handler\Admin\Poetry;
 
+use App\Http\Handler\Admin\AdminHandler;
 use App\Model\Virsh;
-use App\Http\Middleware\AuthMiddleware;
-use Juzdy\Http\Handler;
 use Juzdy\Http\RequestInterface;
 use Juzdy\Http\ResponseInterface;
 
-class Delete extends Handler
+class Delete extends AdminHandler
 {
-    public function __construct() {}
-
-    /**
-     * Register middleware for authentication
-     */
-    protected function registerMiddleware(): void
-    {
-        $this->addMiddleware(new AuthMiddleware());
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -38,6 +27,6 @@ class Delete extends Handler
             }
         }
         
-        return $this->redirect('/?q=admin/index');
+        return $this->redirect('/admin/index');
     }
 }

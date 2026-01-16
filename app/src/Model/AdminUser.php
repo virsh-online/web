@@ -19,7 +19,9 @@ class AdminUser extends Model
         $collection->addFilter(['email' => $email]);
         
         if (!$collection->isEmpty()) {
-            return $collection[0];
+            foreach ($collection as $item) {
+                return $item;
+            }
         }
         
         return null;

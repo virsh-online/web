@@ -14,9 +14,10 @@ return [
         //'default_handler' => 'Index', // Default handler if none is specified
     ],
     'path' => [
-        'uploads' => '@{root}/public/uploads',
+        'pub' => '@{root}/pub',
         'var' => '@{root}/var',
-        'logs' => '@{path.var}/logs',    
+        'logs' => '@{path.var}/logs',
+        'uploads' => '@{path.pub}/uploads',
     ],
     
 ];

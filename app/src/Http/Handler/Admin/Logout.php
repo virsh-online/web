@@ -14,10 +14,9 @@ class Logout extends Handler
      */
     public function handle(RequestInterface $request): ResponseInterface
     {
-        // Clear admin session
-        $request->session('admin_user_id', null);
+        $request->clearSession();
         
         // Redirect to login page
-        return $this->redirect('/?q=admin/login');
+        return $this->redirect('/admin/login');
     }
 }

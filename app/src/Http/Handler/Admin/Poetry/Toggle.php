@@ -1,24 +1,13 @@
 <?php
-namespace App\Http\Handler\Admin;
+namespace App\Http\Handler\Admin\Poetry;
 
+use App\Http\Handler\Admin\AdminHandler;
 use App\Model\Virsh;
-use App\Http\Middleware\AuthMiddleware;
-use Juzdy\Http\Handler;
 use Juzdy\Http\RequestInterface;
 use Juzdy\Http\ResponseInterface;
 
-class Toggle extends Handler
+class Toggle extends AdminHandler
 {
-    public function __construct() {}
-
-    /**
-     * Register middleware for authentication
-     */
-    protected function registerMiddleware(): void
-    {
-        $this->addMiddleware(new AuthMiddleware());
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -43,10 +32,10 @@ class Toggle extends Handler
                 // Log error for debugging
                 error_log('Failed to toggle poem ID ' . $id . ': ' . $e->getMessage());
                 // Redirect with error parameter
-                return $this->redirect('/?q=admin/index&error=toggle_failed');
+                return $this->redirect('/admin/index&error=toggle_failed');
             }
         }
         
-        return $this->redirect('/?q=admin/index');
+        return $this->redirect('/admin/index');
     }
 }

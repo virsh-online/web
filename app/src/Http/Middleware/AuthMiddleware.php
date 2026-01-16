@@ -17,14 +17,6 @@ use Juzdy\Http\Response;
 class AuthMiddleware implements MiddlewareInterface
 {
     /**
-     * Routes that should be excluded from authentication check
-     */
-    private const EXCLUDED_ROUTES = [
-        'admin/login',
-        'admin/logout',
-    ];
-
-    /**
      * Process the request.
      *
      * @param RequestInterface $request
@@ -33,14 +25,6 @@ class AuthMiddleware implements MiddlewareInterface
      */
     public function process(RequestInterface $request, HandlerInterface $handler): ResponseInterface
     {
-        // Get current route
-        $route = $request->query('q') ?? '';
-        
-        // Skip authentication for excluded routes
-        if ($this->isExcludedRoute($route)) {
-            return $handler->handle($request);
-        }
-        
         // Check if user is authenticated
         $adminUserId = $request->session('admin_user_id');
 
@@ -52,7 +36,7 @@ class AuthMiddleware implements MiddlewareInterface
             return (new Response())
                 ->reset()
                 ->status(302)
-                ->header('Location', '/?q=admin/login');
+                ->header('Location', '/admin/login');
         }
         
         // Verify user exists and is enabled in database
@@ -68,7 +52,7 @@ class AuthMiddleware implements MiddlewareInterface
                 return (new Response())
                     ->reset()
                     ->status(302)
-                    ->header('Location', '/?q=admin/login');
+                    ->header('Location', '/admin/login');
             }
         } catch (\Exception $e) {
             // Database error - clear session and redirect to login
@@ -78,31 +62,10 @@ class AuthMiddleware implements MiddlewareInterface
             return (new Response())
                 ->reset()
                 ->status(302)
-                ->header('Location', '/?q=admin/login');
+                ->header('Location', '/admin/login');
         }
 
         // User is authenticated, continue to next middleware or handler
         return $handler->handle($request);
-    }
-
-    /**
-     * Check if the route should be excluded from authentication
-     *
-     * @param string $route
-     * @return bool
-     */
-    private function isExcludedRoute(string $route): bool
-    {
-        $route = strtolower(trim($route, '/'));
-        
-        foreach (self::EXCLUDED_ROUTES as $excludedRoute) {
-            $excludedRoute = strtolower(trim($excludedRoute, '/'));
-            // Exact match only - no partial matches allowed
-            if ($route === $excludedRoute) {
-                return true;
-            }
-        }
-        
-        return false;
     }
 }

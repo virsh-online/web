@@ -11,10 +11,12 @@
             </div>
         <?php endif; ?>
         
-        <a href="/admin/edit" class="btn-primary" title="Додати новий вірш">+</a>
+        <a href="/admin/poetry/edit" class="btn-primary" title="Додати новий вірш">+</a>
         
         <div class="cards-container">
-            <?php foreach ($this('collection') as $poem): ?>
+            <?php 
+            /** @var \App\Model\Virsh $poem */
+            foreach ($this('collection') as $poem): ?>
                 <div class="poem-card <?= $poem('enabled') ? '' : 'disabled' ?>">
                     <h3><?= htmlspecialchars($poem('title')) ?></h3>
                     <div class="poem-excerpt">
@@ -27,25 +29,25 @@
                         ?>
                     </div>
                     
-                    <?php if ($poem('illustration')): ?>
+                    <?php if ($poem->getIllustrationUrl()): ?>
                         <div style="margin: 1rem 0;">
-                            <img src="/<?= htmlspecialchars($poem('illustration')) ?>" 
+                            <img src="<?= htmlspecialchars($poem->getIllustrationUrl()) ?>" 
                                  alt="<?= htmlspecialchars($poem('title')) ?>" 
                                  style="max-width: 100%; height: auto; border-radius: 4px;">
                         </div>
                     <?php endif; ?>
                     
                     <div class="poem-actions">
-                        <a href="/admin/edit&id=<?= $poem('id') ?>" class="btn btn-edit" title="Редагувати">
+                        <a href="/admin/poetry/edit&id=<?= $poem('id') ?>" class="btn btn-edit" title="Редагувати">
                             ✎
                         </a>
-                        <a href="/admin/toggle&id=<?= $poem('id') ?>" 
+                        <a href="/admin/poetry/toggle&id=<?= $poem('id') ?>" 
                            class="btn btn-toggle <?= $poem('enabled') ? 'enabled' : '' ?>"
                            title="<?= $poem('enabled') ? 'Вимкнути' : 'Увімкнути' ?>"
                            onclick="return confirm('Ви впевнені?')">
                             <?= $poem('enabled') ? '●' : '○' ?>
                         </a>
-                        <a href="/admin/delete&id=<?= $poem('id') ?>" 
+                        <a href="/admin/poetry/delete&id=<?= $poem('id') ?>" 
                            class="btn btn-delete"
                            title="Видалити"
                            onclick="return confirm('Ви впевнені, що хочете видалити цей вірш?')">

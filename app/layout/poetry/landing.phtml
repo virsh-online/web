@@ -1,4 +1,5 @@
 <?php
+/** @var \App\Model\Virsh $poem */
 foreach ($this('collection') as $poem): ?>
     <article class="poem-vintage">
         <div class="poem-sheet">
@@ -12,9 +13,9 @@ foreach ($this('collection') as $poem): ?>
                     <img src="/<?= htmlspecialchars($poem('illustration')) ?>" alt="Ілюстрація до вірша">
                 </div>
                 <?php endif; ?>
-                <?php if ($poem('youtube')): ?>
+                <?php if ($poem->getYoutube()): ?>
                 <div class="poem-body-youtube">
-                    <iframe src="<?= htmlspecialchars($poem('youtube')) ?>" allowfullscreen></iframe>
+                    <iframe src="<?=  htmlspecialchars($poem->getYoutube()) ?>" allowfullscreen></iframe>
                 </div>
                 <?php endif; ?>
                 <div class="poem-footer">Кінець</div>
