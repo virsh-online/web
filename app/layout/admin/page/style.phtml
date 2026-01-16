@@ -280,37 +280,50 @@
         }
 
         .btn-edit {
+            background: transparent;
+            color: var(--text-secondary);
+            border-color: var(--border-color);
+        }
+
+        .btn-edit:hover {
             background: var(--info);
             color: var(--text-inverse);
             border-color: var(--info-hover);
         }
 
-        .btn-edit:hover {
-            background: var(--info-hover);
+        .btn-delete {
+            background: transparent;
+            color: var(--text-secondary);
+            border-color: var(--border-color);
         }
 
-        .btn-delete {
+        .btn-delete:hover {
             background: var(--danger);
             color: var(--text-inverse);
             border-color: var(--danger-hover);
         }
 
-        .btn-delete:hover {
-            background: var(--danger-hover);
+        .btn-toggle {
+            background: transparent;
+            color: var(--text-secondary);
+            border-color: var(--border-color);
         }
 
-        .btn-toggle {
+        .btn-toggle:hover {
             background: var(--disabled);
             color: var(--text-inverse);
         }
 
         .btn-toggle.enabled {
-            background: var(--success);
-            border-color: var(--success-hover);
+            background: transparent;
+            color: var(--text-secondary);
+            border-color: var(--border-color);
         }
 
         .btn-toggle.enabled:hover {
-            background: var(--success-hover);
+            background: var(--success);
+            color: var(--text-inverse);
+            border-color: var(--success-hover);
         }
 
         .btn-primary {
@@ -528,6 +541,13 @@
             flex-wrap: wrap;
         }
 
+        .pagination-pages {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
         .pagination-btn {
             background: var(--accent-primary);
             color: var(--text-inverse);
@@ -543,6 +563,42 @@
             background: var(--accent-hover);
             transform: translateY(-2px);
             box-shadow: var(--shadow-sm);
+        }
+
+        .pagination-arrow {
+            padding: 0.75rem 1rem;
+        }
+
+        .pagination-number {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .pagination-number:hover {
+            background: var(--accent-primary);
+            color: var(--text-inverse);
+            border-color: var(--accent-primary);
+        }
+
+        .pagination-active {
+            background: var(--accent-primary);
+            color: var(--text-inverse);
+            border-color: var(--accent-primary);
+            font-weight: 700;
+        }
+
+        .pagination-ellipsis {
+            color: var(--text-secondary);
+            padding: 0 0.5rem;
+            font-weight: 500;
         }
 
         .pagination-info {

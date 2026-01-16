@@ -59,18 +59,67 @@
         </div>
 
         <?php if ($this('totalPages') > 1): ?>
+        <?php
+        // Generate page numbers for pagination
+        function getAdminPaginationPages($currentPage, $totalPages) {
+            $pages = [];
+            $delta = 2; // Number of pages to show around current page
+            
+            // Always show first page
+            $pages[] = 1;
+            
+            // Calculate range around current page
+            $rangeStart = max(2, $currentPage - $delta);
+            $rangeEnd = min($totalPages - 1, $currentPage + $delta);
+            
+            // Add ellipsis after first page if needed
+            if ($rangeStart > 2) {
+                $pages[] = '...';
+            }
+            
+            // Add pages around current page
+            for ($i = $rangeStart; $i <= $rangeEnd; $i++) {
+                $pages[] = $i;
+            }
+            
+            // Add ellipsis before last page if needed
+            if ($rangeEnd < $totalPages - 1) {
+                $pages[] = '...';
+            }
+            
+            // Always show last page if it's different from first page
+            if ($totalPages > 1 && !in_array($totalPages, $pages)) {
+                $pages[] = $totalPages;
+            }
+            
+            return $pages;
+        }
+
+        $paginationPages = getAdminPaginationPages($this('currentPage'), $this('totalPages'));
+        ?>
         <div class="pagination">
             <?php if ($this('currentPage') > 1): ?>
-                <a href="/admin/index?page=<?= $this('currentPage') - 1 ?>" class="pagination-btn">←</a>
+                <a href="/admin/index?page=<?= $this('currentPage') - 1 ?>" class="pagination-btn pagination-arrow">←</a>
             <?php endif; ?>
             
+            <div class="pagination-pages">
+                <?php foreach ($paginationPages as $page): ?>
+                    <?php if ($page === '...'): ?>
+                        <span class="pagination-ellipsis">...</span>
+                    <?php elseif ($page === $this('currentPage')): ?>
+                        <span class="pagination-number pagination-active"><?= $page ?></span>
+                    <?php else: ?>
+                        <a href="/admin/index?page=<?= $page ?>" class="pagination-number"><?= $page ?></a>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+            
             <span class="pagination-info">
-                Сторінка <?= $this('currentPage') ?> з <?= $this('totalPages') ?>
                 (всього: <?= $this('totalCount') ?>)
             </span>
             
             <?php if ($this('currentPage') < $this('totalPages')): ?>
-                <a href="/admin/index?page=<?= $this('currentPage') + 1 ?>" class="pagination-btn">→</a>
+                <a href="/admin/index?page=<?= $this('currentPage') + 1 ?>" class="pagination-btn pagination-arrow">→</a>
             <?php endif; ?>
         </div>
         <?php endif; ?>
