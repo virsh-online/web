@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Middleware;
 
+use App\Model\AdminUser;
 use Juzdy\Http\Middleware\MiddlewareInterface;
 use Juzdy\Http\HandlerInterface;
 use Juzdy\Http\RequestInterface;
@@ -48,6 +49,32 @@ class AuthMiddleware implements MiddlewareInterface
             $request->session('intended_url', $_SERVER['REQUEST_URI'] ?? '/admin/index');
             
             // Return redirect response instead of using header()
+            return (new Response())
+                ->reset()
+                ->status(302)
+                ->header('Location', '/?q=admin/login');
+        }
+        
+        // Verify user exists and is enabled in database
+        try {
+            $adminUserModel = new AdminUser();
+            $adminUserModel->load((int)$adminUserId);
+            
+            if (!$adminUserModel->isLoaded() || !$adminUserModel->isEnabled()) {
+                // User not found or disabled - clear session and redirect to login
+                $request->session('admin_user_id', null);
+                $request->session('intended_url', $_SERVER['REQUEST_URI'] ?? '/admin/index');
+                
+                return (new Response())
+                    ->reset()
+                    ->status(302)
+                    ->header('Location', '/?q=admin/login');
+            }
+        } catch (\Exception $e) {
+            // Database error - clear session and redirect to login
+            error_log('Auth middleware error: ' . $e->getMessage());
+            $request->session('admin_user_id', null);
+            
             return (new Response())
                 ->reset()
                 ->status(302)
