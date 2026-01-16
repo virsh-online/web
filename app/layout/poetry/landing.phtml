@@ -23,17 +23,61 @@ foreach ($this('collection') as $poem): ?>
 <?php endforeach ?>
 
 <?php if ($this('totalPages') > 1): ?>
+<?php
+// Generate page numbers for pagination
+function getPaginationPages($currentPage, $totalPages) {
+    $pages = [];
+    $delta = 2; // Number of pages to show around current page
+    
+    // Always show first page
+    $pages[] = 1;
+    
+    // Calculate range around current page
+    $rangeStart = max(2, $currentPage - $delta);
+    $rangeEnd = min($totalPages - 1, $currentPage + $delta);
+    
+    // Add ellipsis after first page if needed
+    if ($rangeStart > 2) {
+        $pages[] = '...';
+    }
+    
+    // Add pages around current page
+    for ($i = $rangeStart; $i <= $rangeEnd; $i++) {
+        $pages[] = $i;
+    }
+    
+    // Add ellipsis before last page if needed
+    if ($rangeEnd < $totalPages - 1) {
+        $pages[] = '...';
+    }
+    
+    // Always show last page if it's different from first page
+    if ($totalPages > 1 && !in_array($totalPages, $pages)) {
+        $pages[] = $totalPages;
+    }
+    
+    return $pages;
+}
+
+$paginationPages = getPaginationPages($this('currentPage'), $this('totalPages'));
+?>
 <div class="pagination-vintage">
     <?php if ($this('currentPage') > 1): ?>
-        <a href="/?page=<?= $this('currentPage') - 1 ?>" class="pagination-link">←</a>
+        <a href="/?page=<?= $this('currentPage') - 1 ?>" class="pagination-link pagination-arrow">←</a>
     <?php endif; ?>
     
-    <span class="pagination-current">
-        Сторінка <?= $this('currentPage') ?> з <?= $this('totalPages') ?>
-    </span>
+    <?php foreach ($paginationPages as $page): ?>
+        <?php if ($page === '...'): ?>
+            <span class="pagination-ellipsis">...</span>
+        <?php elseif ($page === $this('currentPage')): ?>
+            <span class="pagination-current"><?= $page ?></span>
+        <?php else: ?>
+            <a href="/?page=<?= $page ?>" class="pagination-link"><?= $page ?></a>
+        <?php endif; ?>
+    <?php endforeach; ?>
     
     <?php if ($this('currentPage') < $this('totalPages')): ?>
-        <a href="/?page=<?= $this('currentPage') + 1 ?>" class="pagination-link">→</a>
+        <a href="/?page=<?= $this('currentPage') + 1 ?>" class="pagination-link pagination-arrow">→</a>
     <?php endif; ?>
 </div>
 <?php endif; ?>
