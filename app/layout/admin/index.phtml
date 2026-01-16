@@ -67,7 +67,7 @@
             
             // Previous button
             if ($currentPage > 1): ?>
-                <a href="/admin/index?page=<?= $currentPage - 1 ?>" class="pagination-btn pagination-prev" title="Попередня сторінка">←</a>
+                <a href="/admin/index?page=<?= $currentPage - 1 ?>" class="pagination-btn pagination-prev" title="Попередня сторінка" aria-label="Попередня сторінка">←</a>
             <?php endif; ?>
             
             <div class="pagination-pages">
@@ -101,7 +101,7 @@
             <?php
             // Next button
             if ($currentPage < $totalPages): ?>
-                <a href="/admin/index?page=<?= $currentPage + 1 ?>" class="pagination-btn pagination-next" title="Наступна сторінка">→</a>
+                <a href="/admin/index?page=<?= $currentPage + 1 ?>" class="pagination-btn pagination-next" title="Наступна сторінка" aria-label="Наступна сторінка">→</a>
             <?php endif; ?>
             
             <!-- Direct page input -->
@@ -116,7 +116,7 @@
                            value="<?= $currentPage ?>"
                            class="pagination-goto-input"
                            title="Введіть номер сторінки">
-                    <button type="submit" class="pagination-goto-btn" title="Перейти до сторінки">→</button>
+                    <button type="submit" class="pagination-goto-btn" title="Перейти до сторінки" aria-label="Перейти до сторінки">→</button>
                 </form>
             </div>
             

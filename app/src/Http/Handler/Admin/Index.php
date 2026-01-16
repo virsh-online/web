@@ -26,8 +26,8 @@ class Index extends AdminHandler
         $totalCount = $collection->count();
         $totalPages = $collection->getPages();
         
-        // Validate page is within bounds
-        $page = min($page, max(1, $totalPages));
+        // Validate page is within bounds (handle empty collections)
+        $page = min($page, max(1, $totalPages ?: 1));
         $collection->setPage($page);
         
         // Get error parameter from request

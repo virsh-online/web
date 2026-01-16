@@ -31,7 +31,7 @@ foreach ($this('collection') as $poem): ?>
     
     // Previous button
     if ($currentPage > 1): ?>
-        <a href="/?page=<?= $currentPage - 1 ?>" class="pagination-link pagination-prev" title="Попередня сторінка">←</a>
+        <a href="/?page=<?= $currentPage - 1 ?>" class="pagination-link pagination-prev" title="Попередня сторінка" aria-label="Попередня сторінка">←</a>
     <?php endif; ?>
     
     <div class="pagination-pages-vintage">
@@ -65,7 +65,7 @@ foreach ($this('collection') as $poem): ?>
     <?php
     // Next button
     if ($currentPage < $totalPages): ?>
-        <a href="/?page=<?= $currentPage + 1 ?>" class="pagination-link pagination-next" title="Наступна сторінка">→</a>
+        <a href="/?page=<?= $currentPage + 1 ?>" class="pagination-link pagination-next" title="Наступна сторінка" aria-label="Наступна сторінка">→</a>
     <?php endif; ?>
     
     <!-- Direct page input -->
@@ -80,7 +80,7 @@ foreach ($this('collection') as $poem): ?>
                    value="<?= $currentPage ?>"
                    class="pagination-goto-input-vintage"
                    title="Введіть номер сторінки">
-            <button type="submit" class="pagination-goto-btn-vintage" title="Перейти до сторінки">→</button>
+            <button type="submit" class="pagination-goto-btn-vintage" title="Перейти до сторінки" aria-label="Перейти до сторінки">→</button>
         </form>
     </div>
 </div>
