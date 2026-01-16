@@ -28,9 +28,9 @@ class Index extends Handler
         $collection->setPageSize($perPage);
         $collection->setPage($page);
         
-        // Get total count for pagination
-        $totalPages = $collection->getPages();
+        // Get total count and pages for pagination
         $totalCount = $collection->count();
+        $totalPages = $collection->getPages();
         
         // Get social links for footer
         $socialLinkModel = new SocialLink();

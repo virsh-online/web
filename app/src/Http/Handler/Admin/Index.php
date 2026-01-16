@@ -23,9 +23,9 @@ class Index extends AdminHandler
         $collection->setPageSize($perPage);
         $collection->setPage($page);
         
-        // Get total count for pagination
-        $totalPages = $collection->getPages();
+        // Get total count and pages for pagination
         $totalCount = $collection->count();
+        $totalPages = $collection->getPages();
         
         // Get error parameter from request
         $error = $request->query('error');
