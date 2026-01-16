@@ -34,14 +34,14 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="icon">Іконка (текст або HTML):</label>
+                    <label for="icon">Іконка (емоджі або текст):</label>
                     <input type="text" 
                            id="icon" 
                            name="icon" 
                            value="<?= htmlspecialchars($this('link')->get('icon') ?? '') ?>" 
-                           placeholder="📱 або HTML іконка">
+                           placeholder="📱 або текстова іконка">
                     <small style="color: #666; display: block; margin-top: 0.25rem;">
-                        Можете використати емоджі або HTML код
+                        Можете використати емоджі або текст (HTML не підтримується з міркувань безпеки)
                     </small>
                 </div>
                 

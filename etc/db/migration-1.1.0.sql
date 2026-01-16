@@ -4,6 +4,9 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
+-- Add illustration_enabled field to virsh table if it doesn't exist
+ALTER TABLE `virsh` ADD COLUMN IF NOT EXISTS `illustration_enabled` tinyint(4) NOT NULL DEFAULT 1 AFTER `illustration`;
+
 -- Create social_links table
 CREATE TABLE IF NOT EXISTS `social_links` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
