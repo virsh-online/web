@@ -51,8 +51,8 @@ function getPaginationPages($currentPage, $totalPages) {
         $pages[] = '...';
     }
     
-    // Always show last page if there's more than one page
-    if ($totalPages > 1) {
+    // Always show last page if it's different from first page
+    if ($totalPages > 1 && !in_array($totalPages, $pages)) {
         $pages[] = $totalPages;
     }
     
