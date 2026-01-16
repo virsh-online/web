@@ -487,7 +487,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 20px;
+            gap: 8px;
             margin: 40px 0;
             padding: 20px;
             border-top: 1px solid var(--ink-faded);
@@ -504,6 +504,8 @@
             background: transparent;
             transition: all 0.2s ease;
             font-size: 0.9rem;
+            min-width: 40px;
+            text-align: center;
         }
 
         .pagination-link:hover {
@@ -511,11 +513,28 @@
             color: var(--paper);
         }
 
+        .pagination-arrow {
+            padding: 8px 12px;
+            min-width: auto;
+        }
+
         .pagination-current {
+            font-family: 'Anonymous Pro', monospace;
+            color: var(--paper);
+            background: var(--ink);
+            font-size: 0.9rem;
+            padding: 8px 16px;
+            min-width: 40px;
+            text-align: center;
+            border: 1px solid var(--ink);
+            font-weight: bold;
+        }
+
+        .pagination-ellipsis {
             font-family: 'Anonymous Pro', monospace;
             color: var(--ink-faded);
             font-size: 0.9rem;
-            padding: 0 10px;
+            padding: 0 8px;
         }
 
         @media (max-width: 968px) {
