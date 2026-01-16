@@ -16,7 +16,7 @@ class Index extends AdminHandler
         $collection = $virshModel->getCollection();
         
         // Get pagination parameters
-        $page = max(1, (int)$request->query('page', 1));
+        $page = max(1, (int)($request->query('page') ?? 1));
         $perPage = 20;
         
         // Apply pagination

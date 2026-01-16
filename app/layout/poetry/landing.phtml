@@ -25,7 +25,7 @@ foreach ($this('collection') as $poem): ?>
 <?php if ($this('totalPages') > 1): ?>
 <div class="pagination-vintage">
     <?php if ($this('currentPage') > 1): ?>
-        <a href="/?page=<?= $this('currentPage') - 1 ?>" class="pagination-link">← Попередня</a>
+        <a href="/?page=<?= $this('currentPage') - 1 ?>" class="pagination-link">←</a>
     <?php endif; ?>
     
     <span class="pagination-current">
@@ -33,7 +33,7 @@ foreach ($this('collection') as $poem): ?>
     </span>
     
     <?php if ($this('currentPage') < $this('totalPages')): ?>
-        <a href="/?page=<?= $this('currentPage') + 1 ?>" class="pagination-link">Наступна →</a>
+        <a href="/?page=<?= $this('currentPage') + 1 ?>" class="pagination-link">→</a>
     <?php endif; ?>
 </div>
 <?php endif; ?>

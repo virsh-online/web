@@ -21,7 +21,7 @@ class Index extends Handler
         $collection->addFilter(['enabled' => 1]);
         
         // Get pagination parameters
-        $page = max(1, (int)$request->query('page', 1));
+        $page = max(1, (int)$request->query('page'));
         $perPage = 20;
         
         // Apply pagination
