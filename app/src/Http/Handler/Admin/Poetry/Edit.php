@@ -33,7 +33,12 @@ class Edit extends AdminHandler
         
         if ($request->isPost()) {
             try {
-                $illustrationPath = $this->uploadIllustration($request, $id, $virshModel);
+                // Handle illustration removal
+                if ($request->post('remove_illustration')) {
+                    $illustrationPath = '';
+                } else {
+                    $illustrationPath = $this->uploadIllustration($request, $id, $virshModel);
+                }
                 
                 $data = [
                     'title' => $request->post('title'),
@@ -41,6 +46,7 @@ class Edit extends AdminHandler
                     'youtube' => $request->post('youtube'),
                     'enabled' => $request->post('enabled') ? 1 : 0,
                     'illustration' => $illustrationPath,
+                    'illustration_enabled' => $request->post('illustration_enabled') ? 1 : 0,
                 ];
                 
                 
@@ -93,6 +99,7 @@ class Edit extends AdminHandler
             'virsh' => htmlspecialchars(trim($data['virsh'])),
             'youtube' => filter_var(trim($data['youtube']), FILTER_SANITIZE_URL),
             'enabled' => isset($data['enabled']) && $data['enabled'] ? 1 : 0,
+            'illustration_enabled' => isset($data['illustration_enabled']) && $data['illustration_enabled'] ? 1 : 0,
         ];
         
         // Only include illustration if it's set

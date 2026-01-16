@@ -1,0 +1,75 @@
+
+        <?php if ($this('error')): ?>
+            <div class="alert alert-error">
+                <?= htmlspecialchars($this('error')) ?>
+            </div>
+        <?php endif; ?>
+        
+        <?php if ($this('success')): ?>
+            <div class="alert alert-success">
+                <?= htmlspecialchars($this('success')) ?>
+            </div>
+        <?php endif; ?>
+        
+        <div class="form-container">
+            <form method="POST">
+                <div class="form-group">
+                    <label for="name">Назва посилання: *</label>
+                    <input type="text" 
+                           id="name" 
+                           name="name" 
+                           value="<?= htmlspecialchars($this('link')->get('name') ?? '') ?>" 
+                           placeholder="Facebook, Instagram, YouTube..."
+                           required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="url">URL адреса: *</label>
+                    <input type="url" 
+                           id="url" 
+                           name="url" 
+                           value="<?= htmlspecialchars($this('link')->get('url') ?? '') ?>" 
+                           placeholder="https://example.com"
+                           required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="icon">Іконка (текст або HTML):</label>
+                    <input type="text" 
+                           id="icon" 
+                           name="icon" 
+                           value="<?= htmlspecialchars($this('link')->get('icon') ?? '') ?>" 
+                           placeholder="📱 або HTML іконка">
+                    <small style="color: #666; display: block; margin-top: 0.25rem;">
+                        Можете використати емоджі або HTML код
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="sort_order">Порядок сортування:</label>
+                    <input type="number" 
+                           id="sort_order" 
+                           name="sort_order" 
+                           value="<?= htmlspecialchars($this('link')->get('sort_order') ?? 0) ?>" 
+                           min="0">
+                    <small style="color: #666; display: block; margin-top: 0.25rem;">
+                        Менше значення = вище в списку
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" 
+                               name="enabled" 
+                               value="1" 
+                               <?= ($this('link')->get('enabled') ?? 1) ? 'checked' : '' ?>>
+                        Показувати на сайті
+                    </label>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" title="Зберегти">✓</button>
+                    <a href="/admin/sociallinks/index" class="btn-cancel" title="Скасувати">←</a>
+                </div>
+            </form>
+        </div>

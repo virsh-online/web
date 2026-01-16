@@ -4,17 +4,21 @@
             <h3>ВІРШ ОНЛАЙН</h3>
             <p>Збірка віршів онлайн</p>
         </div>
-        <!--div class="footer-col">
-                <h3>Контакти</h3>
-                <a href="mailto:vintage@poetry.press">vintage@poetry.press</a>
-                <a href="tel:+380000000000">+38 (000) 000-00-00</a>
-            </div-->
-        <!--div class="footer-col">
-                <h3>Соціальні мережі</h3>
-                <a href="#">Facebook</a>
-                <a href="#">Instagram</a>
-                <a href="#">YouTube</a>
-            </div-->
+        <?php if ($this('socialLinks') && $this('socialLinks')->count() > 0): ?>
+        <div class="footer-col">
+            <h3>Соціальні мережі</h3>
+            <?php 
+            /** @var \App\Model\SocialLink $link */
+            foreach ($this('socialLinks') as $link): ?>
+                <a href="<?= htmlspecialchars($link('url')) ?>" target="_blank" rel="noopener noreferrer">
+                    <?php if ($link('icon')): ?>
+                        <?= $link('icon') ?> 
+                    <?php endif; ?>
+                    <?= htmlspecialchars($link('name')) ?>
+                </a>
+            <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
     </div>
     <div class="footer-copyright">
         2026 VIRSH ONLLINE Press. Усі права захищені.

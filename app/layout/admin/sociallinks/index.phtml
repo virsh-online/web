@@ -1,0 +1,50 @@
+
+        <?php if ($this('error')): ?>
+            <div class="alert alert-error">
+                <?php if ($this('error') === 'delete_failed'): ?>
+                    Не вдалося видалити посилання
+                <?php elseif ($this('error') === 'toggle_failed'): ?>
+                    Не вдалося змінити статус посилання
+                <?php else: ?>
+                    Сталася помилка
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+        
+        <a href="/admin/sociallinks/edit" class="btn-primary" title="Додати нове посилання">+</a>
+        
+        <div class="cards-container">
+            <?php 
+            /** @var \App\Model\SocialLink $link */
+            foreach ($this('collection') as $link): ?>
+                <div class="poem-card <?= $link('enabled') ? '' : 'disabled' ?>">
+                    <h3><?= htmlspecialchars($link('name')) ?></h3>
+                    
+                    <div class="poem-excerpt">
+                        <p><strong>URL:</strong> <?= htmlspecialchars($link('url')) ?></p>
+                        <?php if ($link('icon')): ?>
+                            <p><strong>Іконка:</strong> <?= htmlspecialchars($link('icon')) ?></p>
+                        <?php endif; ?>
+                        <p><strong>Порядок:</strong> <?= htmlspecialchars($link('sort_order')) ?></p>
+                    </div>
+                    
+                    <div class="poem-actions">
+                        <a href="/admin/sociallinks/edit&id=<?= $link('id') ?>" class="btn btn-edit" title="Редагувати">
+                            ✎
+                        </a>
+                        <a href="/admin/sociallinks/toggle&id=<?= $link('id') ?>" 
+                           class="btn btn-toggle <?= $link('enabled') ? 'enabled' : '' ?>"
+                           title="<?= $link('enabled') ? 'Вимкнути' : 'Увімкнути' ?>"
+                           onclick="return confirm('Ви впевнені?')">
+                            <?= $link('enabled') ? '●' : '○' ?>
+                        </a>
+                        <a href="/admin/sociallinks/delete&id=<?= $link('id') ?>" 
+                           class="btn btn-delete"
+                           title="Видалити"
+                           onclick="return confirm('Ви впевнені, що хочете видалити це посилання?')">
+                            ×
+                        </a>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
