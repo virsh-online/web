@@ -83,6 +83,12 @@ class Edit extends AdminHandler
             $errors[] = 'Некоректний URL';
         }
         
+        // Additional URL security validation
+        $parsedUrl = parse_url($data['url']);
+        if (!isset($parsedUrl['scheme']) || !in_array($parsedUrl['scheme'], ['http', 'https'])) {
+            $errors[] = 'URL повинен починатися з http:// або https://';
+        }
+        
         return $errors;
     }
 
@@ -90,7 +96,7 @@ class Edit extends AdminHandler
     {
         return [
             'name' => htmlspecialchars(trim($data['name'])),
-            'url' => filter_var(trim($data['url']), FILTER_SANITIZE_URL),
+            'url' => trim($data['url']),
             'icon' => htmlspecialchars(trim($data['icon'])),
             'enabled' => isset($data['enabled']) && $data['enabled'] ? 1 : 0,
             'sort_order' => (int)$data['sort_order'],
