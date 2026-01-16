@@ -23,22 +23,20 @@ class Index extends Handler
         // Get pagination parameters
         $page = max(1, (int)$request->query('page', 1));
         $perPage = 20;
-        $offset = ($page - 1) * $perPage;
         
         // Apply pagination
-        $collection->setLimit($perPage, $offset);
+        $collection->setPageSize($perPage);
+        $collection->setPage($page);
         
         // Get total count for pagination
-        $totalCollection = $virshModel->getCollection();
-        $totalCollection->addFilter(['enabled' => 1]);
-        $totalCount = $totalCollection->count();
-        $totalPages = ceil($totalCount / $perPage);
+        $totalPages = $collection->getPages();
+        $totalCount = $collection->count();
         
         // Get social links for footer
         $socialLinkModel = new SocialLink();
         $socialLinks = $socialLinkModel->getCollection();
         $socialLinks->addFilter(['enabled' => 1]);
-        $socialLinks->setOrder('sort_order', 'ASC');
+        $socialLinks->sort('sort_order', 'ASC');
         
         return
             $this->render(

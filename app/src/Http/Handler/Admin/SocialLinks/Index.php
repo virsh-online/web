@@ -17,7 +17,7 @@ class Index extends AdminHandler
         $collection = $socialLinkModel->getCollection();
         
         // Order by sort_order
-        $collection->setOrder('sort_order', 'ASC');
+        $collection->sort('sort_order', 'ASC');
         
         // Get error parameter from request
         $error = $request->query('error');
