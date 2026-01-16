@@ -9,12 +9,49 @@
 </head>
 
 <body>
-    <?= $this->render('page/nav') ?>
+    <div class="admin-header">
+        <button class="burger-menu">☰</button>
+        <h1>Адмін панель - Поєзія</h1>
+    </div>
+    
+    <div class="overlay"></div>
     <div class="admin-container">
+        <aside class="admin-sidebar">
+            <nav>
+                <a href="/admin/index" title="Поєзія">Поєзія</a>
+                <a href="/admin/sociallinks/index" title="Соціальні мережі">Соц. мережі</a>
+                <a href="/admin/logout" title="Вихід">Вихід</a>
+            </nav>
+        </aside>
         <main class="admin-main">
             <?= $this->render($this->getTemplate()) ?>
         </main>
     </div>
+    
+    <script>
+        // Burger menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const burger = document.querySelector('.burger-menu');
+            const sidebar = document.querySelector('.admin-sidebar');
+            const overlay = document.querySelector('.overlay');
+            
+            if (burger) {
+                burger.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                    if (overlay) {
+                        overlay.classList.toggle('active');
+                    }
+                });
+                
+                if (overlay) {
+                    overlay.addEventListener('click', function() {
+                        sidebar.classList.remove('active');
+                        overlay.classList.remove('active');
+                    });
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>
