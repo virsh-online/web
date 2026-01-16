@@ -100,6 +100,7 @@
             padding: 1.5rem;
             transition: var(--transition);
             box-shadow: var(--shadow-md);
+            flex-shrink: 0;
         }
 
         .admin-sidebar nav a {
@@ -193,6 +194,8 @@
             box-shadow: var(--shadow-sm);
             transition: var(--transition);
             border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
         }
 
         .poem-card:hover {
@@ -224,7 +227,7 @@
             display: flex;
             gap: 0.5rem;
             flex-wrap: wrap;
-            margin-top: 1rem;
+            margin-top: auto;
         }
 
         .poem-card .btn {
