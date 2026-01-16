@@ -15,9 +15,11 @@ CREATE TABLE `virsh` (
   `enabled` tinyint(4) NOT NULL DEFAULT 1,
   `title` varchar(255) NOT NULL,
   `virsh` text NOT NULL,
-  `illustration` varchar(256) NOT NULL,
-  `youtube` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL
+  `illustration` varchar(256) NOT NULL DEFAULT '',
+  `illustration_enabled` tinyint(4) NOT NULL DEFAULT 1,
+  `youtube` varchar(255) NOT NULL DEFAULT '',
+  `youtube_enabled` tinyint(4) NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 

@@ -45,7 +45,7 @@
                     <label for="illustration">Ілюстрація:</label>
                     <?php if ($this('poem')->get('illustration')): ?>
                         <div class="current-illustration">
-                            <img src="/<?= htmlspecialchars($this('poem')->get('illustration')) ?>" 
+                            <img src="<?= htmlspecialchars($this('poem')->getIllustrationUrl()) ?>" 
                                  alt="Поточна ілюстрація">
                             <p>Поточна ілюстрація (буде замінена при завантаженні нової)</p>
                         </div>
