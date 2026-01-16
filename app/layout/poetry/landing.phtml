@@ -6,7 +6,7 @@ foreach ($this('collection') as $poem): ?>
             <div class="poem-header">
                 <h2 class="poem-title-vintage"><?= htmlspecialchars($poem('title')) ?></h2>
             </div>
-            <?php if ($poem('illustration')): ?>
+            <?php if ($poem('illustration') && $poem('illustration_enabled')): ?>
             <div class="poem-body-illustration">
                 <img src="<?= htmlspecialchars($poem->getIllustrationUrl()) ?>" alt="Ілюстрація до вірша">
             </div>
@@ -21,3 +21,19 @@ foreach ($this('collection') as $poem): ?>
         </div>
     </article>
 <?php endforeach ?>
+
+<?php if ($this('totalPages') > 1): ?>
+<div class="pagination-vintage">
+    <?php if ($this('currentPage') > 1): ?>
+        <a href="/?page=<?= $this('currentPage') - 1 ?>" class="pagination-link">← Попередня</a>
+    <?php endif; ?>
+    
+    <span class="pagination-current">
+        Сторінка <?= $this('currentPage') ?> з <?= $this('totalPages') ?>
+    </span>
+    
+    <?php if ($this('currentPage') < $this('totalPages')): ?>
+        <a href="/?page=<?= $this('currentPage') + 1 ?>" class="pagination-link">Наступна →</a>
+    <?php endif; ?>
+</div>
+<?php endif; ?>

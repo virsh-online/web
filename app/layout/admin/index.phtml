@@ -57,3 +57,20 @@
                 </div>
             <?php endforeach; ?>
         </div>
+
+        <?php if ($this('totalPages') > 1): ?>
+        <div class="pagination">
+            <?php if ($this('currentPage') > 1): ?>
+                <a href="/admin/index?page=<?= $this('currentPage') - 1 ?>" class="pagination-btn">← Попередня</a>
+            <?php endif; ?>
+            
+            <span class="pagination-info">
+                Сторінка <?= $this('currentPage') ?> з <?= $this('totalPages') ?>
+                (всього: <?= $this('totalCount') ?>)
+            </span>
+            
+            <?php if ($this('currentPage') < $this('totalPages')): ?>
+                <a href="/admin/index?page=<?= $this('currentPage') + 1 ?>" class="pagination-btn">Наступна →</a>
+            <?php endif; ?>
+        </div>
+        <?php endif; ?>

@@ -15,12 +15,27 @@ class Index extends AdminHandler
         $virshModel = new Virsh();
         $collection = $virshModel->getCollection();
         
+        // Get pagination parameters
+        $page = max(1, (int)$request->query('page', 1));
+        $perPage = 20;
+        
+        // Apply pagination
+        $collection->setPageSize($perPage);
+        $collection->setPage($page);
+        
+        // Get total count and pages for pagination
+        $totalCount = $collection->count();
+        $totalPages = $collection->getPages();
+        
         // Get error parameter from request
         $error = $request->query('error');
         
         return $this->render('index', [
             'collection' => $collection,
-            'error' => $error
+            'error' => $error,
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
+            'totalCount' => $totalCount
         ], 'admin');
     }
 }

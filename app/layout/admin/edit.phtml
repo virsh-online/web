@@ -48,6 +48,12 @@
                             <img src="<?= htmlspecialchars($this('poem')->getIllustrationUrl()) ?>" 
                                  alt="Поточна ілюстрація">
                             <p>Поточна ілюстрація (буде замінена при завантаженні нової)</p>
+                            <label style="margin-top: 0.5rem;">
+                                <input type="checkbox" 
+                                       name="remove_illustration" 
+                                       value="1">
+                                Видалити ілюстрацію
+                            </label>
                         </div>
                     <?php endif; ?>
                     <input type="file" 
@@ -58,6 +64,18 @@
                         Підтримуються формати: JPG, PNG, GIF, WEBP (макс. 5MB)
                     </small>
                 </div>
+                
+                <?php if ($this('poem')->get('illustration')): ?>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" 
+                               name="illustration_enabled" 
+                               value="1" 
+                               <?= ($this('poem')->get('illustration_enabled') ?? 1) ? 'checked' : '' ?>>
+                        Показувати ілюстрацію на сайті
+                    </label>
+                </div>
+                <?php endif; ?>
                 
                 <div class="form-group">
                     <label>
