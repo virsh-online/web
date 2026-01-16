@@ -19,5 +19,10 @@ return [
         'logs' => '@{path.var}/logs',
         'uploads' => '@{path.pub}/uploads',
     ],
+
+    'url' => [
+        'base' => '', 
+        'uploads' => '/pub/uploads',
+    ],
     
 ];
