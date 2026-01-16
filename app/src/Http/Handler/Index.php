@@ -26,11 +26,14 @@ class Index extends Handler
         
         // Apply pagination
         $collection->setPageSize($perPage);
-        $collection->setPage($page);
         
         // Get total count and pages for pagination
         $totalCount = $collection->count();
         $totalPages = $collection->getPages();
+        
+        // Validate page is within bounds
+        $page = min($page, max(1, $totalPages));
+        $collection->setPage($page);
         
         // Get social links for footer
         $socialLinkModel = new SocialLink();
