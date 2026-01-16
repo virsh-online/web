@@ -1,19 +1,4 @@
-<div class="admin-header">
-    <button class="burger-menu">☰</button>
-    <h1><?= $this('isNew') ? 'Додати вірш' : 'Редагувати вірш' ?></h1>
-</div>
 
-<div class="overlay"></div>
-
-<div class="admin-container">
-    <aside class="admin-sidebar">
-        <nav>
-            <a href="/?q=admin/index" class="active" title="Поєзія">≡</a>
-            <a href="/?q=admin/logout" title="Вихід">⎋</a>
-        </nav>
-    </aside>
-    
-    <main class="admin-main">
         <?php if ($this('error')): ?>
             <div class="alert alert-error">
                 <?= htmlspecialchars($this('error')) ?>
@@ -87,9 +72,7 @@
                 
                 <div class="form-actions">
                     <button type="submit" title="Зберегти">✓</button>
-                    <a href="/?q=admin/index" class="btn-cancel" title="Скасувати">←</a>
+                    <a href="/admin/index" class="btn-cancel" title="Скасувати">←</a>
                 </div>
             </form>
         </div>
-    </main>
-</div>

@@ -1,19 +1,4 @@
-<div class="admin-header">
-    <button class="burger-menu">☰</button>
-    <h1>Адмін панель - Поєзія</h1>
-</div>
 
-<div class="overlay"></div>
-
-<div class="admin-container">
-    <aside class="admin-sidebar">
-        <nav>
-            <a href="/?q=admin/index" class="active" title="Поєзія">≡</a>
-            <a href="/?q=admin/logout" title="Вихід">⎋</a>
-        </nav>
-    </aside>
-    
-    <main class="admin-main">
         <?php if ($this('error')): ?>
             <div class="alert alert-error">
                 <?php if ($this('error') === 'delete_failed'): ?>
@@ -26,7 +11,7 @@
             </div>
         <?php endif; ?>
         
-        <a href="/?q=admin/edit" class="btn-primary" title="Додати новий вірш">+</a>
+        <a href="/admin/edit" class="btn-primary" title="Додати новий вірш">+</a>
         
         <div class="cards-container">
             <?php foreach ($this('collection') as $poem): ?>
@@ -51,16 +36,16 @@
                     <?php endif; ?>
                     
                     <div class="poem-actions">
-                        <a href="/?q=admin/edit&id=<?= $poem('id') ?>" class="btn btn-edit" title="Редагувати">
+                        <a href="/admin/edit&id=<?= $poem('id') ?>" class="btn btn-edit" title="Редагувати">
                             ✎
                         </a>
-                        <a href="/?q=admin/toggle&id=<?= $poem('id') ?>" 
+                        <a href="/admin/toggle&id=<?= $poem('id') ?>" 
                            class="btn btn-toggle <?= $poem('enabled') ? 'enabled' : '' ?>"
                            title="<?= $poem('enabled') ? 'Вимкнути' : 'Увімкнути' ?>"
                            onclick="return confirm('Ви впевнені?')">
                             <?= $poem('enabled') ? '●' : '○' ?>
                         </a>
-                        <a href="/?q=admin/delete&id=<?= $poem('id') ?>" 
+                        <a href="/admin/delete&id=<?= $poem('id') ?>" 
                            class="btn btn-delete"
                            title="Видалити"
                            onclick="return confirm('Ви впевнені, що хочете видалити цей вірш?')">
@@ -70,12 +55,3 @@
                 </div>
             <?php endforeach; ?>
         </div>
-        
-        <?php if (count($this('collection')) === 0): ?>
-            <div style="text-align: center; padding: 3rem; color: #666;">
-                <p style="font-size: 1.2rem;">Поки що немає віршів</p>
-                <p>Натисніть "Додати новий вірш" щоб створити перший</p>
-            </div>
-        <?php endif; ?>
-    </main>
-</div>
