@@ -1,6 +1,7 @@
 <?php
 namespace App\Model;
 
+use Juzdy\Config;
 use Juzdy\Model;
 
 class Virsh extends Model
@@ -11,7 +12,7 @@ class Virsh extends Model
     {
         $illustration = $this->get('illustration');
         if ($illustration) {
-            return '/'.$illustration;
+            return Config::get('url.uploads') . '/' . $illustration;
         }
         return null;
     }

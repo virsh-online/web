@@ -154,6 +154,18 @@
             display: block;
         }
 
+        /* Desktop - sidebar always visible */
+        @media (min-width: 769px) {
+            .burger-menu {
+                display: none;
+            }
+
+            .admin-sidebar {
+                position: static;
+                transform: translateX(0);
+            }
+        }
+
         /* Mobile menu */
         @media (max-width: 768px) {
             .burger-menu {
@@ -193,6 +205,8 @@
             box-shadow: var(--shadow-sm);
             transition: var(--transition);
             border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
         }
 
         .poem-card:hover {
@@ -220,11 +234,27 @@
             line-height: 1.6;
         }
 
+        .poem-card .poem-illustration {
+            margin: 1rem 0;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .poem-card .poem-illustration img {
+            width: 100%;
+            height: auto;
+            display: block;
+            max-height: 250px;
+            object-fit: cover;
+        }
+
         .poem-card .poem-actions {
             display: flex;
             gap: 0.5rem;
             flex-wrap: wrap;
-            margin-top: 1rem;
+            margin-top: auto;
+            padding-top: 1rem;
         }
 
         .poem-card .btn {
@@ -369,6 +399,30 @@
             margin-top: 0.375rem;
             color: var(--text-secondary);
             font-size: 0.875rem;
+        }
+
+        .form-group .current-illustration {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: var(--bg-primary);
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .form-group .current-illustration img {
+            max-width: 100%;
+            max-height: 300px;
+            height: auto;
+            display: block;
+            border-radius: 4px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group .current-illustration p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin: 0;
         }
 
         .form-actions {
