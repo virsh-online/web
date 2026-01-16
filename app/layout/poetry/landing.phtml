@@ -24,16 +24,64 @@ foreach ($this('collection') as $poem): ?>
 
 <?php if ($this('totalPages') > 1): ?>
 <div class="pagination-vintage">
-    <?php if ($this('currentPage') > 1): ?>
-        <a href="/?page=<?= $this('currentPage') - 1 ?>" class="pagination-link">← Попередня</a>
+    <?php
+    $currentPage = $this('currentPage');
+    $totalPages = $this('totalPages');
+    $delta = 2; // Number of pages to show on each side of current page
+    
+    // Previous button
+    if ($currentPage > 1): ?>
+        <a href="/?page=<?= $currentPage - 1 ?>" class="pagination-link pagination-prev" title="Попередня сторінка">←</a>
     <?php endif; ?>
     
-    <span class="pagination-current">
-        Сторінка <?= $this('currentPage') ?> з <?= $this('totalPages') ?>
-    </span>
+    <div class="pagination-pages-vintage">
+        <?php
+        // Always show first page
+        if ($currentPage > $delta + 2): ?>
+            <a href="/?page=1" class="pagination-page-vintage">1</a>
+            <?php if ($currentPage > $delta + 3): ?>
+                <span class="pagination-ellipsis-vintage">...</span>
+            <?php endif; ?>
+        <?php endif;
+        
+        // Show pages around current page
+        for ($i = max(1, $currentPage - $delta); $i <= min($totalPages, $currentPage + $delta); $i++): ?>
+            <?php if ($i == $currentPage): ?>
+                <span class="pagination-page-vintage pagination-page-current"><?= $i ?></span>
+            <?php else: ?>
+                <a href="/?page=<?= $i ?>" class="pagination-page-vintage"><?= $i ?></a>
+            <?php endif; ?>
+        <?php endfor;
+        
+        // Always show last page
+        if ($currentPage < $totalPages - $delta - 1): ?>
+            <?php if ($currentPage < $totalPages - $delta - 2): ?>
+                <span class="pagination-ellipsis-vintage">...</span>
+            <?php endif; ?>
+            <a href="/?page=<?= $totalPages ?>" class="pagination-page-vintage"><?= $totalPages ?></a>
+        <?php endif; ?>
+    </div>
     
-    <?php if ($this('currentPage') < $this('totalPages')): ?>
-        <a href="/?page=<?= $this('currentPage') + 1 ?>" class="pagination-link">Наступна →</a>
+    <?php
+    // Next button
+    if ($currentPage < $totalPages): ?>
+        <a href="/?page=<?= $currentPage + 1 ?>" class="pagination-link pagination-next" title="Наступна сторінка">→</a>
     <?php endif; ?>
+    
+    <!-- Direct page input -->
+    <div class="pagination-goto-vintage">
+        <form method="get" action="/" class="pagination-goto-form-vintage">
+            <label for="page-input-vintage" class="pagination-goto-label-vintage">Перейти:</label>
+            <input type="number" 
+                   id="page-input-vintage" 
+                   name="page" 
+                   min="1" 
+                   max="<?= $totalPages ?>" 
+                   value="<?= $currentPage ?>"
+                   class="pagination-goto-input-vintage"
+                   title="Введіть номер сторінки">
+            <button type="submit" class="pagination-goto-btn-vintage" title="Перейти до сторінки">→</button>
+        </form>
+    </div>
 </div>
 <?php endif; ?>

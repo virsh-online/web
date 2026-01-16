@@ -487,7 +487,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             margin: 40px 0;
             padding: 20px;
             border-top: 1px solid var(--ink-faded);
@@ -495,20 +495,102 @@
             flex-wrap: wrap;
         }
 
-        .pagination-link {
+        .pagination-pages-vintage {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .pagination-link,
+        .pagination-page-vintage {
             font-family: 'Anonymous Pro', monospace;
             color: var(--ink);
             text-decoration: none;
-            padding: 8px 16px;
+            padding: 8px 14px;
             border: 1px solid var(--ink-faded);
             background: transparent;
             transition: all 0.2s ease;
             font-size: 0.9rem;
+            min-width: 38px;
+            text-align: center;
+            display: inline-block;
         }
 
-        .pagination-link:hover {
+        .pagination-link:hover,
+        .pagination-page-vintage:hover {
             background: var(--ink);
             color: var(--paper);
+        }
+
+        .pagination-page-vintage.pagination-page-current {
+            background: var(--highlight);
+            color: var(--paper);
+            border-color: var(--highlight);
+            font-weight: bold;
+            cursor: default;
+        }
+
+        .pagination-ellipsis-vintage {
+            font-family: 'Anonymous Pro', monospace;
+            color: var(--ink-faded);
+            padding: 0 8px;
+            font-size: 0.9rem;
+        }
+
+        .pagination-goto-vintage {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 15px;
+            padding-left: 15px;
+            border-left: 1px solid var(--ink-faded);
+        }
+
+        .pagination-goto-form-vintage {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pagination-goto-label-vintage {
+            font-family: 'Anonymous Pro', monospace;
+            color: var(--ink-faded);
+            font-size: 0.85rem;
+        }
+
+        .pagination-goto-input-vintage {
+            font-family: 'Courier Prime', monospace;
+            width: 50px;
+            padding: 6px 8px;
+            border: 1px solid var(--ink-faded);
+            background: transparent;
+            color: var(--ink);
+            text-align: center;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .pagination-goto-input-vintage:focus {
+            outline: none;
+            border-color: var(--highlight);
+            background: rgba(139, 69, 19, 0.05);
+        }
+
+        .pagination-goto-btn-vintage {
+            font-family: 'Anonymous Pro', monospace;
+            background: var(--highlight);
+            color: var(--paper);
+            padding: 6px 12px;
+            border: 1px solid var(--highlight);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .pagination-goto-btn-vintage:hover {
+            background: var(--ink);
+            border-color: var(--ink);
         }
 
         .pagination-current {
@@ -516,6 +598,32 @@
             color: var(--ink-faded);
             font-size: 0.9rem;
             padding: 0 10px;
+        }
+
+        @media (max-width: 768px) {
+            .pagination-vintage {
+                gap: 10px;
+                padding: 15px;
+            }
+
+            .pagination-goto-vintage {
+                margin-left: 0;
+                padding-left: 0;
+                border-left: none;
+                width: 100%;
+                justify-content: center;
+                padding-top: 10px;
+                border-top: 1px solid var(--ink-faded);
+            }
+
+            .pagination-goto-form-vintage {
+                flex: 1;
+                max-width: 250px;
+            }
+
+            .pagination-goto-input-vintage {
+                flex: 1;
+            }
         }
 
         @media (max-width: 968px) {
