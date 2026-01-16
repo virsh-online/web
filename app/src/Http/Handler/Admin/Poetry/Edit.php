@@ -164,7 +164,7 @@ class Edit extends AdminHandler
         
         // Generate unique filename
         $filename = 'poem_' . time() . '_' . uniqid() . '.' . $extension;
-        $targetPath = $uploadDir . '/' . $filename;
+        $targetPath = rtrim($uploadDir, '/') . '/' . $filename;
         
         // Move uploaded file
         if (!move_uploaded_file($file['tmp_name'], $targetPath)) {
