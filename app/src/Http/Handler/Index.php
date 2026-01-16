@@ -32,7 +32,7 @@ class Index extends Handler
         $totalPages = $collection->getPages();
         
         // Validate page is within bounds (handle empty collections)
-        $page = min($page, max(1, $totalPages ?: 1));
+        $page = min($page, $totalPages ?: 1);
         $collection->setPage($page);
         
         // Get social links for footer

@@ -36,15 +36,18 @@ foreach ($this('collection') as $poem): ?>
     
     <div class="pagination-pages-vintage">
         <?php
-        // Always show first page
+        // Show first page if current page is far enough from start
+        // delta + 2 means we need at least 2 pages gap (e.g., current=5: 1 ... 3,4,5)
         if ($currentPage > $delta + 2): ?>
             <a href="/?page=1" class="pagination-page-vintage">1</a>
-            <?php if ($currentPage > $delta + 3): ?>
+            <?php 
+            // Show ellipsis if there's a gap of more than 1 page
+            if ($currentPage > $delta + 3): ?>
                 <span class="pagination-ellipsis-vintage">...</span>
             <?php endif; ?>
         <?php endif;
         
-        // Show pages around current page
+        // Show pages around current page (delta pages on each side)
         for ($i = max(1, $currentPage - $delta); $i <= min($totalPages, $currentPage + $delta); $i++): ?>
             <?php if ($i == $currentPage): ?>
                 <span class="pagination-page-vintage pagination-page-current"><?= $i ?></span>
@@ -53,9 +56,12 @@ foreach ($this('collection') as $poem): ?>
             <?php endif; ?>
         <?php endfor;
         
-        // Always show last page
+        // Show last page if current page is far enough from end
+        // totalPages - delta - 1 means we need at least 2 pages gap from end
         if ($currentPage < $totalPages - $delta - 1): ?>
-            <?php if ($currentPage < $totalPages - $delta - 2): ?>
+            <?php 
+            // Show ellipsis if there's a gap of more than 1 page
+            if ($currentPage < $totalPages - $delta - 2): ?>
                 <span class="pagination-ellipsis-vintage">...</span>
             <?php endif; ?>
             <a href="/?page=<?= $totalPages ?>" class="pagination-page-vintage"><?= $totalPages ?></a>
