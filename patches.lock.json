@@ -1,0 +1,17 @@
+{
+    "_hash": "9b990adadeead122d51b994edd5897ba514bcceb8a51a8237b215c26c0dcce20",
+    "patches": {
+        "juzdy/core": [
+            {
+                "package": "juzdy/core",
+                "description": "Fix pagination count query parameter binding",
+                "url": "patches/fix-pagination-count.patch",
+                "sha256": "29fc3c825313448688b4b1ebf795f2724af713f5d455fbd7c9c0eb9e9c1757e0",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ]
+    }
+}

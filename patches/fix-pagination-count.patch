@@ -1,0 +1,16 @@
+diff --git a/src/Model/Collection.php b/src/Model/Collection.php
+index 97020ec..a51362a 100644
+--- a/src/Model/Collection.php
++++ b/src/Model/Collection.php
+@@ -675,7 +675,11 @@ class Collection implements CollectionInterface
+         $sql = $this->getSelect(true);
+         $sql = "SELECT COUNT(*) FROM ($sql) AS count_query";
+         $stmt = $this->db->prepare($sql);
++        // When counting, we skip limit, so don't bind lim/off params
+         foreach ($this->params as $key => $value) {
++            if ($key === 'lim' || $key === 'off') {
++                continue;
++            }
+             $stmt->bindValue(":$key", $value, is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR);
+         }
+         $stmt->execute();

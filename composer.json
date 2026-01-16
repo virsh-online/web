@@ -13,6 +13,19 @@
     },
     "config": {
         "optimize-autoloader": true,
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "cweagans/composer-patches": true
+        }
+    },
+    "require-dev": {
+        "cweagans/composer-patches": "^2.0"
+    },
+    "extra": {
+        "patches": {
+            "juzdy/core": {
+                "Fix pagination count query parameter binding": "patches/fix-pagination-count.patch"
+            }
+        }
     }
 }
