@@ -118,16 +118,37 @@ class Edit extends AdminHandler
      */
     private function sanitizeHtml(string $html): string
     {
-        // List of allowed tags and attributes for basic rich text formatting
+        // List of allowed tags for basic rich text formatting
         $allowedTags = '<b><i><strong><em><p><ul><ol><li><br>';
         
         // Strip all tags except allowed ones
         $cleaned = strip_tags($html, $allowedTags);
         
-        // Remove any potentially dangerous attributes (like onclick, onerror, etc.)
-        $cleaned = preg_replace('/<([a-z]+)([^>]*?)>/i', '<$1>', $cleaned);
+        // Remove any potentially dangerous attributes using DOMDocument for robust parsing
+        $dom = new \DOMDocument();
+        // Suppress warnings for malformed HTML and load with UTF-8 encoding
+        @$dom->loadHTML('<?xml encoding="UTF-8">' . $cleaned, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
         
-        return $cleaned;
+        // Remove all attributes from all elements
+        $xpath = new \DOMXPath($dom);
+        $nodes = $xpath->query('//*[@*]');
+        foreach ($nodes as $node) {
+            $attributes = [];
+            foreach ($node->attributes as $attr) {
+                $attributes[] = $attr->name;
+            }
+            foreach ($attributes as $attrName) {
+                $node->removeAttribute($attrName);
+            }
+        }
+        
+        // Get sanitized HTML
+        $sanitized = $dom->saveHTML();
+        
+        // Remove the XML encoding declaration we added
+        $sanitized = str_replace('<?xml encoding="UTF-8">', '', $sanitized);
+        
+        return trim($sanitized);
     }
 
     private function uploadIllustration(RequestInterface $request, ?int $id, Virsh $virshModel): string
