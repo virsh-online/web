@@ -96,7 +96,7 @@ class Edit extends AdminHandler
     {
         $sanitized = [
             'title' => htmlspecialchars(trim($data['title'])),
-            'virsh' => htmlspecialchars(trim($data['virsh'])),
+            'virsh' => $this->sanitizeHtml(trim($data['virsh'])),
             'youtube' => trim($data['youtube']),
             'enabled' => isset($data['enabled']) && $data['enabled'] ? 1 : 0,
             'illustration_enabled' => isset($data['illustration_enabled']) && $data['illustration_enabled'] ? 1 : 0,
@@ -108,6 +108,26 @@ class Edit extends AdminHandler
         }
         
         return $sanitized;
+    }
+
+    /**
+     * Sanitize HTML content allowing only safe tags for rich text formatting
+     * 
+     * @param string $html
+     * @return string
+     */
+    private function sanitizeHtml(string $html): string
+    {
+        // List of allowed tags and attributes for basic rich text formatting
+        $allowedTags = '<b><i><strong><em><p><ul><ol><li><br>';
+        
+        // Strip all tags except allowed ones
+        $cleaned = strip_tags($html, $allowedTags);
+        
+        // Remove any potentially dangerous attributes (like onclick, onerror, etc.)
+        $cleaned = preg_replace('/<([a-z]+)([^>]*?)>/i', '<$1>', $cleaned);
+        
+        return $cleaned;
     }
 
     private function uploadIllustration(RequestInterface $request, ?int $id, Virsh $virshModel): string

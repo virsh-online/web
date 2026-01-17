@@ -24,8 +24,19 @@
                 
                 <div class="form-group">
                     <label for="virsh">Текст вірша: *</label>
+                    <div class="rich-editor-toolbar">
+                        <button type="button" class="editor-btn" data-command="bold" title="Жирний (Ctrl+B)"><strong>B</strong></button>
+                        <button type="button" class="editor-btn" data-command="italic" title="Курсив (Ctrl+I)"><em>I</em></button>
+                        <button type="button" class="editor-btn" data-command="insertUnorderedList" title="Маркований список">• List</button>
+                        <button type="button" class="editor-btn" data-command="insertOrderedList" title="Нумерований список">1. List</button>
+                        <button type="button" class="editor-btn" data-command="formatBlock" data-value="p" title="Параграф">¶</button>
+                    </div>
+                    <div id="virsh-editor" 
+                         class="rich-editor-content" 
+                         contenteditable="true"><?= $this('poem')->get('virsh') ?? '' ?></div>
                     <textarea id="virsh" 
                               name="virsh" 
+                              style="display: none;" 
                               required><?= htmlspecialchars($this('poem')->get('virsh') ?? '') ?></textarea>
                 </div>
                 
@@ -93,3 +104,80 @@
                 </div>
             </form>
         </div>
+
+        <script>
+        // Rich Text Editor functionality
+        (function() {
+            const editor = document.getElementById('virsh-editor');
+            const textarea = document.getElementById('virsh');
+            const toolbar = document.querySelector('.rich-editor-toolbar');
+            const form = editor.closest('form');
+
+            // Initialize editor with content from textarea
+            if (textarea.value) {
+                editor.innerHTML = textarea.value;
+            }
+
+            // Handle toolbar button clicks
+            toolbar.addEventListener('click', function(e) {
+                const btn = e.target.closest('.editor-btn');
+                if (!btn) return;
+
+                e.preventDefault();
+                const command = btn.dataset.command;
+                const value = btn.dataset.value || null;
+
+                // Execute formatting command
+                document.execCommand(command, false, value);
+                
+                // Maintain focus on editor
+                editor.focus();
+                
+                // Update button active state
+                updateToolbarState();
+            });
+
+            // Update toolbar button states based on current selection
+            function updateToolbarState() {
+                const buttons = toolbar.querySelectorAll('.editor-btn');
+                buttons.forEach(btn => {
+                    const command = btn.dataset.command;
+                    if (command === 'bold' || command === 'italic' || 
+                        command === 'insertUnorderedList' || command === 'insertOrderedList') {
+                        if (document.queryCommandState(command)) {
+                            btn.classList.add('active');
+                        } else {
+                            btn.classList.remove('active');
+                        }
+                    }
+                });
+            }
+
+            // Update button states on selection change
+            editor.addEventListener('mouseup', updateToolbarState);
+            editor.addEventListener('keyup', updateToolbarState);
+
+            // Sync editor content to textarea before form submission
+            form.addEventListener('submit', function() {
+                textarea.value = editor.innerHTML;
+            });
+
+            // Handle keyboard shortcuts
+            editor.addEventListener('keydown', function(e) {
+                if (e.ctrlKey || e.metaKey) {
+                    if (e.key === 'b') {
+                        e.preventDefault();
+                        document.execCommand('bold', false, null);
+                        updateToolbarState();
+                    } else if (e.key === 'i') {
+                        e.preventDefault();
+                        document.execCommand('italic', false, null);
+                        updateToolbarState();
+                    }
+                }
+            });
+
+            // Initialize toolbar state
+            updateToolbarState();
+        })();
+        </script>
