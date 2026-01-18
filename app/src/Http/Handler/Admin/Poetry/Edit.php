@@ -111,20 +111,20 @@ class Edit extends AdminHandler
     }
 
     /**
-     * Sanitize HTML content allowing only safe tags for rich text formatting
+     * Sanitize HTML content from Quill editor allowing only safe tags
      * 
      * @param string $html
      * @return string
      */
     private function sanitizeHtml(string $html): string
     {
-        // List of allowed tags for basic rich text formatting
-        $allowedTags = '<b><i><strong><em><p><ul><ol><li><br>';
+        // Quill produces: <p>, <strong>, <em>, <ol>, <ul>, <li>, <br>
+        $allowedTags = '<p><strong><em><ol><ul><li><br>';
         
         // Strip all tags except allowed ones
         $cleaned = strip_tags($html, $allowedTags);
         
-        // Remove any potentially dangerous attributes using DOMDocument for robust parsing
+        // Use DOMDocument to remove all attributes for security
         $dom = new \DOMDocument();
         // Suppress warnings for malformed HTML and load with UTF-8 encoding
         @$dom->loadHTML('<?xml encoding="UTF-8">' . $cleaned, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
@@ -132,13 +132,15 @@ class Edit extends AdminHandler
         // Remove all attributes from all elements
         $xpath = new \DOMXPath($dom);
         $nodes = $xpath->query('//*[@*]');
-        foreach ($nodes as $node) {
-            $attributes = [];
-            foreach ($node->attributes as $attr) {
-                $attributes[] = $attr->name;
-            }
-            foreach ($attributes as $attrName) {
-                $node->removeAttribute($attrName);
+        if ($nodes) {
+            foreach ($nodes as $node) {
+                $attributes = [];
+                foreach ($node->attributes as $attr) {
+                    $attributes[] = $attr->name;
+                }
+                foreach ($attributes as $attrName) {
+                    $node->removeAttribute($attrName);
+                }
             }
         }
         

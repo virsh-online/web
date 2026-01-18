@@ -401,92 +401,96 @@
             line-height: 1.6;
         }
 
-        /* Rich Text Editor Styles */
-        .rich-editor-toolbar {
-            display: flex;
-            gap: 0.5rem;
-            padding: 0.5rem;
+        /* Quill Rich Text Editor Integration */
+        #virsh-editor {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
             background: var(--bg-primary);
+        }
+
+        .ql-toolbar.ql-snow {
             border: 1px solid var(--border-color);
             border-bottom: none;
             border-radius: 6px 6px 0 0;
-            flex-wrap: wrap;
+            background: var(--bg-primary);
+            padding: 0.5rem;
         }
 
-        .editor-btn {
-            padding: 0.5rem 0.75rem;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            transition: var(--transition);
-            min-width: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .editor-btn:hover {
-            background: var(--accent-primary);
-            color: var(--text-inverse);
-            border-color: var(--accent-hover);
-        }
-
-        .editor-btn.active {
-            background: var(--accent-primary);
-            color: var(--text-inverse);
-            border-color: var(--accent-hover);
-        }
-
-        .rich-editor-content {
-            min-height: 200px;
-            padding: 0.875rem;
+        .ql-container.ql-snow {
             border: 1px solid var(--border-color);
             border-radius: 0 0 6px 6px;
-            font-size: 1rem;
-            font-family: inherit;
             background: var(--bg-secondary);
-            color: var(--text-primary);
+            font-size: 1rem;
+            min-height: 200px;
+        }
+
+        .ql-editor {
+            min-height: 200px;
             line-height: 1.6;
-            overflow-y: auto;
-            max-height: 500px;
+            color: var(--text-primary);
         }
 
-        .rich-editor-content:focus {
-            outline: none;
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+        .ql-editor.ql-blank::before {
+            color: var(--text-secondary);
+            font-style: normal;
         }
 
-        .rich-editor-content p {
-            margin: 0 0 1em 0;
+        .ql-snow .ql-stroke {
+            stroke: var(--text-primary);
         }
 
-        .rich-editor-content p:last-child {
+        .ql-snow .ql-fill {
+            fill: var(--text-primary);
+        }
+
+        .ql-snow .ql-picker-label {
+            color: var(--text-primary);
+        }
+
+        .ql-toolbar.ql-snow .ql-formats {
+            margin-right: 0.5rem;
+        }
+
+        .ql-snow.ql-toolbar button:hover,
+        .ql-snow .ql-toolbar button:hover {
+            color: var(--accent-primary);
+        }
+
+        .ql-snow.ql-toolbar button:hover .ql-stroke,
+        .ql-snow .ql-toolbar button:hover .ql-stroke {
+            stroke: var(--accent-primary);
+        }
+
+        .ql-snow.ql-toolbar button:hover .ql-fill,
+        .ql-snow .ql-toolbar button:hover .ql-fill {
+            fill: var(--accent-primary);
+        }
+
+        .ql-snow.ql-toolbar button.ql-active,
+        .ql-snow .ql-toolbar button.ql-active {
+            color: var(--accent-primary);
+        }
+
+        .ql-snow.ql-toolbar button.ql-active .ql-stroke,
+        .ql-snow .ql-toolbar button.ql-active .ql-stroke {
+            stroke: var(--accent-primary);
+        }
+
+        .ql-snow.ql-toolbar button.ql-active .ql-fill,
+        .ql-snow .ql-toolbar button.ql-active .ql-fill {
+            fill: var(--accent-primary);
+        }
+
+        .ql-editor p,
+        .ql-editor ol,
+        .ql-editor ul {
+            margin-bottom: 1em;
+        }
+
+        .ql-editor p:last-child,
+        .ql-editor ol:last-child,
+        .ql-editor ul:last-child {
             margin-bottom: 0;
-        }
-
-        .rich-editor-content ul,
-        .rich-editor-content ol {
-            margin: 0 0 1em 0;
-            padding-left: 2em;
-        }
-
-        .rich-editor-content li {
-            margin-bottom: 0.25em;
-        }
-
-        .rich-editor-content strong,
-        .rich-editor-content b {
-            font-weight: 700;
-        }
-
-        .rich-editor-content em,
-        .rich-editor-content i {
-            font-style: italic;
         }
 
         .form-group input[type="checkbox"] {
