@@ -23,9 +23,20 @@
                 </div>
                 
                 <div class="form-group">
+                    <label for="author">Автор:</label>
+                    <input type="text" 
+                           id="author" 
+                           name="author" 
+                           value="<?= htmlspecialchars($this('poem')->get('author') ?? '') ?>"
+                           placeholder="Ім'я автора">
+                </div>
+                
+                <div class="form-group">
                     <label for="virsh">Текст вірша: *</label>
+                    <div id="virsh-editor"></div>
                     <textarea id="virsh" 
                               name="virsh" 
+                              style="display: none;"
                               required><?= htmlspecialchars($this('poem')->get('virsh') ?? '') ?></textarea>
                 </div>
                 

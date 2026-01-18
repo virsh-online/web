@@ -43,6 +43,7 @@ class Edit extends AdminHandler
                 $data = [
                     'title' => $request->post('title'),
                     'virsh' => $request->post('virsh'),
+                    'author' => $request->post('author'),
                     'youtube' => $request->post('youtube'),
                     'enabled' => $request->post('enabled') ? 1 : 0,
                     'illustration' => $illustrationPath,
@@ -96,6 +97,7 @@ class Edit extends AdminHandler
     {
         $sanitized = [
             'title' => htmlspecialchars(trim($data['title'])),
+            'author' => htmlspecialchars(trim($data['author'] ?? '')),
             'virsh' => htmlspecialchars(trim($data['virsh'])),
             'youtube' => trim($data['youtube']),
             'enabled' => isset($data['enabled']) && $data['enabled'] ? 1 : 0,
