@@ -42,6 +42,7 @@ class Edit extends AdminHandler
                 
                 $data = [
                     'title' => $request->post('title'),
+                    'author' => $request->post('author'),
                     'virsh' => $request->post('virsh'),
                     'youtube' => $request->post('youtube'),
                     'enabled' => $request->post('enabled') ? 1 : 0,
@@ -94,9 +95,13 @@ class Edit extends AdminHandler
 
     private function sanitizeInput(array $data): array
     {
+        // Allowed HTML tags for rich text content
+        $allowedTags = '<p><br><strong><em><u><ol><ul><li>';
+        
         $sanitized = [
             'title' => htmlspecialchars(trim($data['title'])),
-            'virsh' => htmlspecialchars(trim($data['virsh'])),
+            'author' => htmlspecialchars(trim($data['author'] ?? '')),
+            'virsh' => strip_tags(trim($data['virsh']), $allowedTags),
             'youtube' => trim($data['youtube']),
             'enabled' => isset($data['enabled']) && $data['enabled'] ? 1 : 0,
             'illustration_enabled' => isset($data['illustration_enabled']) && $data['illustration_enabled'] ? 1 : 0,

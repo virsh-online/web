@@ -20,6 +20,9 @@ class Index extends Handler
         $collection = $virshModel->getCollection();
         $collection->addFilter(['enabled' => 1]);
         
+        // Sort by created_at descending (newest first)
+        $collection->sort('created_at', 'DESC');
+        
         // Get pagination parameters
         $page = max(1, (int)$request->query('page'));
         $perPage = 20;

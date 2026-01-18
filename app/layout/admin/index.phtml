@@ -20,6 +20,12 @@
                 <div class="poem-card <?= $poem('enabled') ? '' : 'disabled' ?>">
                     <h3><?= htmlspecialchars($poem('title')) ?></h3>
                     
+                    <?php if ($poem('author')): ?>
+                        <div class="poem-author-info">
+                            <small><?= htmlspecialchars($poem('author')) ?></small>
+                        </div>
+                    <?php endif; ?>
+                    
                     <?php if ($poem->getIllustrationUrl()): ?>
                         <div class="poem-illustration">
                             <img src="<?= htmlspecialchars($poem->getIllustrationUrl()) ?>" 
@@ -29,9 +35,11 @@
                     
                     <div class="poem-excerpt">
                         <?php 
-                        $excerpt = mb_substr($poem('virsh'), 0, 150);
+                        // Strip HTML tags for excerpt display
+                        $plainText = strip_tags($poem('virsh'));
+                        $excerpt = mb_substr($plainText, 0, 150);
                         echo htmlspecialchars($excerpt);
-                        if (mb_strlen($poem('virsh')) > 150) {
+                        if (mb_strlen($plainText) > 150) {
                             echo '...';
                         }
                         ?>

@@ -14,6 +14,7 @@ CREATE TABLE `virsh` (
   `id` int(11) NOT NULL,
   `enabled` tinyint(4) NOT NULL DEFAULT 1,
   `title` varchar(255) NOT NULL,
+  `author` varchar(255) NOT NULL DEFAULT '',
   `virsh` text NOT NULL,
   `illustration` varchar(256) NOT NULL DEFAULT '',
   `illustration_enabled` tinyint(4) NOT NULL DEFAULT 1,

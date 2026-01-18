@@ -11,13 +11,18 @@ foreach ($this('collection') as $poem): ?>
                 <img src="<?= htmlspecialchars($poem->getIllustrationUrl()) ?>" alt="Ілюстрація до вірша">
             </div>
             <?php endif; ?>
-            <div class="poem-body-vintage"><?= htmlspecialchars($poem('virsh')) ?></div>
+            <div class="poem-body-vintage"><?= $poem('virsh') ?></div>
             <?php if ($poem->getYoutube()): ?>
             <div class="poem-body-youtube">
                 <iframe src="<?=  htmlspecialchars($poem->getYoutube()) ?>" allowfullscreen></iframe>
             </div>
             <?php endif; ?>
-            <div class="poem-footer">Кінець</div>
+            <div class="poem-footer">
+                <?php if ($poem('author')): ?>
+                    <div class="poem-author"><?= htmlspecialchars($poem('author')) ?></div>
+                <?php endif; ?>
+                Кінець
+            </div>
         </div>
     </article>
 <?php endforeach ?>

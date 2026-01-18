@@ -15,6 +15,9 @@ class Index extends AdminHandler
         $virshModel = new Virsh();
         $collection = $virshModel->getCollection();
         
+        // Sort by created_at descending (newest first)
+        $collection->sort('created_at', 'DESC');
+        
         // Get pagination parameters
         $page = max(1, (int)($request->query('page') ?? 1));
         $perPage = 20;
