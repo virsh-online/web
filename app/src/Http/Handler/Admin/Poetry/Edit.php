@@ -10,6 +10,12 @@ use Juzdy\Http\ResponseInterface;
 class Edit extends AdminHandler
 {
     /**
+     * Allowed HTML tags for rich text poem content
+     * These tags are allowed to preserve formatting from the rich text editor
+     */
+    private const ALLOWED_HTML_TAGS = '<p><br><strong><em><u><ol><ul><li>';
+    
+    /**
      * {@inheritdoc}
      */
     public function handle(RequestInterface $request): ResponseInterface
@@ -95,13 +101,10 @@ class Edit extends AdminHandler
 
     private function sanitizeInput(array $data): array
     {
-        // Allowed HTML tags for rich text content
-        $allowedTags = '<p><br><strong><em><u><ol><ul><li>';
-        
         $sanitized = [
             'title' => htmlspecialchars(trim($data['title'])),
             'author' => htmlspecialchars(trim($data['author'] ?? '')),
-            'virsh' => strip_tags(trim($data['virsh']), $allowedTags),
+            'virsh' => strip_tags(trim($data['virsh']), self::ALLOWED_HTML_TAGS),
             'youtube' => trim($data['youtube']),
             'enabled' => isset($data['enabled']) && $data['enabled'] ? 1 : 0,
             'illustration_enabled' => isset($data['illustration_enabled']) && $data['illustration_enabled'] ? 1 : 0,
