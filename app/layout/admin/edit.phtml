@@ -24,10 +24,8 @@
                 
                 <div class="form-group">
                     <label for="virsh">Текст вірша: *</label>
-                    <div id="virsh-editor"></div>
                     <textarea id="virsh" 
                               name="virsh" 
-                              style="display: none;" 
                               required><?= htmlspecialchars($this('poem')->get('virsh') ?? '') ?></textarea>
                 </div>
                 
@@ -95,38 +93,3 @@
                 </div>
             </form>
         </div>
-
-        <!-- Quill.js Rich Text Editor -->
-        <link href="https://unpkg.com/quill@1.3.7/dist/quill.snow.css" rel="stylesheet">
-        <script src="https://unpkg.com/quill@1.3.7/dist/quill.min.js"></script>
-        <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const textarea = document.getElementById('virsh');
-            const editorContainer = document.getElementById('virsh-editor');
-            const form = editorContainer.closest('form');
-
-            // Initialize Quill editor with basic formatting options
-            const quill = new Quill('#virsh-editor', {
-                theme: 'snow',
-                modules: {
-                    toolbar: [
-                        ['bold', 'italic'],
-                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                        ['clean']
-                    ]
-                },
-                placeholder: 'Введіть текст вірша...'
-            });
-
-            // Load existing content from textarea using Quill's API
-            if (textarea.value) {
-                quill.clipboard.dangerouslyPasteHTML(textarea.value);
-            }
-
-            // Sync Quill content to textarea before form submission using Quill's API
-            form.addEventListener('submit', function() {
-                // Get semantic HTML from Quill (available in Quill 2.0+, fallback to root.innerHTML for 1.3.7)
-                textarea.value = quill.root.innerHTML;
-            });
-        });
-        </script>
