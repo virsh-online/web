@@ -3,13 +3,13 @@ namespace App\Http\Handler;
 
 use App\Model\SocialLink;
 use App\Model\Virsh;
+use Juzdy\Config;
 use Juzdy\Http\Handler;
 use Juzdy\Http\RequestInterface;
 use Juzdy\Http\ResponseInterface;
 
 class Index extends Handler
 {
-    public function __construct() {}
 
     /**
      * {@inheritdoc}
@@ -38,18 +38,21 @@ class Index extends Handler
         $socialLinks = $socialLinkModel->getCollection();
         $socialLinks->addFilter(['enabled' => 1]);
         $socialLinks->sort('sort_order', 'ASC');
-        
-        return
-            $this->render(
-                'landing', 
+
+        $this->getLayout()->asset('css', [
+            'href' => Config::get('url.asset') . '/css/main.css'
+        ]);
+
+        return $this->layout(
+                'poetry',
+                'landing',
                 [
                     'collection' => $collection,
                     'currentPage' => $page,
                     'totalPages' => $totalPages,
                     'totalCount' => $totalCount,
                     'socialLinks' => $socialLinks
-                ], 
-                'poetry'
+                ]
             );
     }
 }

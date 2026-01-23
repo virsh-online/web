@@ -50,6 +50,6 @@ class Login extends Handler
             }
         }
         
-        return $this->render('login', ['error' => $error], 'admin/alone');
+        return $this->layout('admin/alone', 'login', ['error' => $error]);
     }
 }

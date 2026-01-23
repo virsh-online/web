@@ -1,0 +1,125 @@
+
+        <?php if ($this('error')): ?>
+            <div class="alert alert-error">
+                <?php if ($this('error') === 'delete_failed'): ?>
+                    Не вдалося видалити вірш
+                <?php elseif ($this('error') === 'toggle_failed'): ?>
+                    Не вдалося змінити статус вірша
+                <?php else: ?>
+                    Сталася помилка
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+        
+        <a href="/admin/poetry/edit" class="btn-primary" title="Додати новий вірш">+</a>
+        
+        <div class="cards-container">
+            <?php 
+            /** @var \App\Model\Virsh $poem */
+            foreach ($this('collection') as $poem): ?>
+                <div class="poem-card <?= $poem('enabled') ? '' : 'disabled' ?>">
+                    <h3><?= htmlspecialchars($poem('title')) ?></h3>
+                    
+                    <?php if ($poem->getIllustrationUrl()): ?>
+                        <div class="poem-illustration">
+                            <img src="<?= htmlspecialchars($poem->getIllustrationUrl()) ?>" 
+                                 alt="<?= htmlspecialchars($poem('title')) ?>">
+                        </div>
+                    <?php endif; ?>
+                    
+                    <div class="poem-excerpt">
+                        <?php 
+                        $excerpt = mb_substr($poem('virsh'), 0, 150);
+                        echo htmlspecialchars($excerpt);
+                        if (mb_strlen($poem('virsh')) > 150) {
+                            echo '...';
+                        }
+                        ?>
+                    </div>
+                    
+                    <div class="poem-actions">
+                        <a href="/admin/poetry/edit&id=<?= $poem('id') ?>" class="btn btn-edit" title="Редагувати">
+                            ✎
+                        </a>
+                        <a href="/admin/poetry/toggle&id=<?= $poem('id') ?>" 
+                           class="btn btn-toggle <?= $poem('enabled') ? 'enabled' : '' ?>"
+                           title="<?= $poem('enabled') ? 'Вимкнути' : 'Увімкнути' ?>"
+                           onclick="return confirm('Ви впевнені?')">
+                            <?= $poem('enabled') ? '●' : '○' ?>
+                        </a>
+                        <a href="/admin/poetry/delete&id=<?= $poem('id') ?>" 
+                           class="btn btn-delete"
+                           title="Видалити"
+                           onclick="return confirm('Ви впевнені, що хочете видалити цей вірш?')">
+                            ×
+                        </a>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+        <?php if ($this('totalPages') > 1): ?>
+        <?php
+        // Generate page numbers for pagination
+        function getAdminPaginationPages($currentPage, $totalPages) {
+            $pages = [];
+            $delta = 2; // Number of pages to show around current page
+            
+            // Always show first page
+            $pages[] = 1;
+            
+            // Calculate range around current page
+            $rangeStart = max(2, $currentPage - $delta);
+            $rangeEnd = min($totalPages - 1, $currentPage + $delta);
+            
+            // Add ellipsis after first page if needed
+            if ($rangeStart > 2) {
+                $pages[] = '...';
+            }
+            
+            // Add pages around current page
+            for ($i = $rangeStart; $i <= $rangeEnd; $i++) {
+                $pages[] = $i;
+            }
+            
+            // Add ellipsis before last page if needed
+            if ($rangeEnd < $totalPages - 1) {
+                $pages[] = '...';
+            }
+            
+            // Always show last page if it's different from first page
+            if ($totalPages > 1 && !in_array($totalPages, $pages)) {
+                $pages[] = $totalPages;
+            }
+            
+            return $pages;
+        }
+
+        $paginationPages = getAdminPaginationPages($this('currentPage'), $this('totalPages'));
+        ?>
+        <div class="pagination">
+            <?php if ($this('currentPage') > 1): ?>
+                <a href="/admin/index?page=<?= $this('currentPage') - 1 ?>" class="pagination-btn pagination-arrow">←</a>
+            <?php endif; ?>
+            
+            <div class="pagination-pages">
+                <?php foreach ($paginationPages as $page): ?>
+                    <?php if ($page === '...'): ?>
+                        <span class="pagination-ellipsis">...</span>
+                    <?php elseif ($page === $this('currentPage')): ?>
+                        <span class="pagination-number pagination-active"><?= $page ?></span>
+                    <?php else: ?>
+                        <a href="/admin/index?page=<?= $page ?>" class="pagination-number"><?= $page ?></a>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+            
+            <span class="pagination-info">
+                (всього: <?= $this('totalCount') ?>)
+            </span>
+            
+            <?php if ($this('currentPage') < $this('totalPages')): ?>
+                <a href="/admin/index?page=<?= $this('currentPage') + 1 ?>" class="pagination-btn pagination-arrow">→</a>
+            <?php endif; ?>
+        </div>
+        <?php endif; ?>

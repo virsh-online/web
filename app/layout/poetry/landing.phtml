@@ -17,7 +17,12 @@ foreach ($this('collection') as $poem): ?>
                 <iframe src="<?=  htmlspecialchars($poem->getYoutube()) ?>" allowfullscreen></iframe>
             </div>
             <?php endif; ?>
-            <div class="poem-footer"><?= htmlspecialchars($poem('author')) ?></div>
+            <div class="poem-footer">
+                <?php 
+                $author = $poem('author') ? htmlspecialchars($poem('author')) : 'Кінець';
+                ?>
+                <?= $author ?>
+            </div>
         </div>
     </article>
 <?php endforeach ?>

@@ -23,6 +23,7 @@ return [
     'url' => [
         'base' => '', 
         'uploads' => '/pub/uploads',
+        'asset' => '/pub/asset',
     ],
     
 ];

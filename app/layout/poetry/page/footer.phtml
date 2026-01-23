@@ -1,26 +1,24 @@
-<footer class="footer-vintage">
-    <div class="footer-columns">
-        <div class="footer-col">
-            <h3>ВІРШ ОНЛАЙН</h3>
-            <p>Збірка віршів онлайн</p>
-        </div>
-        <?php if ($this('socialLinks') && $this('socialLinks')->count() > 0): ?>
+<div class="footer-columns">
+    <div class="footer-col">
+        <h3>ВІРШ ОНЛАЙН</h3>
+        <p>Збірка віршів онлайн</p>
+    </div>
+    <?php if ($this('socialLinks') && $this('socialLinks')->count() > 0): ?>
         <div class="footer-col">
             <h3>Соціальні мережі</h3>
-            <?php 
+            <?php
             /** @var \App\Model\SocialLink $link */
             foreach ($this('socialLinks') as $link): ?>
                 <a href="<?= htmlspecialchars($link('url')) ?>" target="_blank" rel="noopener noreferrer">
                     <?php if ($link('icon')): ?>
-                        <?= htmlspecialchars($link('icon')) ?> 
+                        <?= htmlspecialchars($link('icon')) ?>
                     <?php endif; ?>
                     <?= htmlspecialchars($link('name')) ?>
                 </a>
             <?php endforeach; ?>
         </div>
-        <?php endif; ?>
-    </div>
-    <div class="footer-copyright">
-        2026 VIRSH ONLLINE Press. Усі права захищені.
-    </div>
-</footer>
+    <?php endif; ?>
+</div>
+<div class="footer-copyright">
+    2026 VIRSH ONLLINE Press. Усі права захищені.
+</div>

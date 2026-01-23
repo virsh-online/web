@@ -30,12 +30,15 @@ class Index extends AdminHandler
         // Get error parameter from request
         $error = $request->query('error');
         
-        return $this->render('index', [
+        return $this->layout(
+            'admin',
+            'admin', 
+            [
             'collection' => $collection,
             'error' => $error,
             'currentPage' => $page,
             'totalPages' => $totalPages,
             'totalCount' => $totalCount
-        ], 'admin');
+        ]);
     }
 }
