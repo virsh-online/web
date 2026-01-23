@@ -70,12 +70,16 @@ class Edit extends AdminHandler
             }
         }
         
-        return $this->render('edit', [
-            'poem' => $virshModel,
-            'error' => $error,
-            'success' => $success,
-            'isNew' => !$id
-        ], 'admin');
+        return $this->layout(
+            'admin',
+            'edit',
+            [
+                'poem' => $virshModel,
+                'error' => $error,
+                'success' => $success,
+                'isNew' => !$id
+            ]
+        );
     }
 
     private function validateInput(array $data): array
