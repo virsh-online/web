@@ -16,7 +16,13 @@
         maxSize: 80,
         rotationSpeed: { min: 0.5, max: 3 },
         opacity: { min: 0.05, max: 0.15 },
-        targetFrameTime: 16.67 // 60 FPS = 1000ms/60
+        targetFrameTime: 16.67, // 60 FPS = 1000ms/60
+        rotationSpeedMultiplier: 0.02, // Controls rotation animation speed
+        minVelocityThreshold: 0.1, // Minimum velocity to consider symbol as moving
+        bottomAreaThreshold: 0.9, // Bottom 10% of screen
+        resetProbability: 0.01, // 1% chance per frame to reset stationary symbols
+        maxDeltaTimeMultiplier: 2, // Cap delta time to prevent large jumps
+        highlightColor: 'rgba(139, 69, 19, OPACITY)' // CSS --highlight color
     };
 
     class TypographicSymbol {
@@ -72,9 +78,9 @@
             this.y += this.vy * deltaTime;
             
             // Update 3D rotations
-            this.rotationX += this.rotationSpeedX * deltaTime * 0.02;
-            this.rotationY += this.rotationSpeedY * deltaTime * 0.02;
-            this.rotationZ += this.rotationSpeedZ * deltaTime * 0.02;
+            this.rotationX += this.rotationSpeedX * deltaTime * config.rotationSpeedMultiplier;
+            this.rotationY += this.rotationSpeedY * deltaTime * config.rotationSpeedMultiplier;
+            this.rotationZ += this.rotationSpeedZ * deltaTime * config.rotationSpeedMultiplier;
             
             // Boundary collision with bounce
             // Bottom
@@ -102,8 +108,8 @@
             }
             
             // Reset if symbol is nearly stationary at bottom
-            if (Math.abs(this.vy) < 0.1 && this.y > this.canvas.height * 0.9) {
-                if (Math.random() < 0.01) { // 1% chance per frame
+            if (Math.abs(this.vy) < config.minVelocityThreshold && this.y > this.canvas.height * config.bottomAreaThreshold) {
+                if (Math.random() < config.resetProbability) {
                     this.reset();
                 }
             }
@@ -133,7 +139,7 @@
             ctx.font = `${this.size}px 'Special Elite', 'Courier Prime', monospace`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillStyle = `rgba(139, 69, 19, ${opacity})`; // Using --highlight color with opacity
+            ctx.fillStyle = config.highlightColor.replace('OPACITY', opacity);
             ctx.fillText(this.symbol, 0, 0);
             
             ctx.restore();
@@ -189,7 +195,7 @@
 
         animate() {
             const currentTime = performance.now();
-            const deltaTime = Math.min((currentTime - this.lastTime) / config.targetFrameTime, 2); // Cap at 2x speed
+            const deltaTime = Math.min((currentTime - this.lastTime) / config.targetFrameTime, config.maxDeltaTimeMultiplier);
             this.lastTime = currentTime;
             
             // Clear canvas
