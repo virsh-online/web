@@ -28,94 +28,94 @@
 }
 
 /* 30 symbols with varied positions, sizes, and truly random animations */
-.typographic-symbol:nth-child(1) { left: 5%; top: 10%; font-size: 45px; opacity: 0.06; animation: spin-random-1 23s; }
+.typographic-symbol:nth-child(1) { left: 5%; top: 10%; font-size: 45px; opacity: 0.06; animation: spin-random-1 23s infinite; }
 .typographic-symbol:nth-child(1)::before { content: '§'; }
 
-.typographic-symbol:nth-child(2) { left: 15%; top: 25%; font-size: 60px; opacity: 0.08; animation: spin-random-2 31s; }
+.typographic-symbol:nth-child(2) { left: 15%; top: 25%; font-size: 60px; opacity: 0.08; animation: spin-random-2 31s infinite; }
 .typographic-symbol:nth-child(2)::before { content: '¶'; }
 
-.typographic-symbol:nth-child(3) { left: 25%; top: 5%; font-size: 35px; opacity: 0.05; animation: spin-random-3 27s; }
+.typographic-symbol:nth-child(3) { left: 25%; top: 5%; font-size: 35px; opacity: 0.05; animation: spin-random-3 27s infinite; }
 .typographic-symbol:nth-child(3)::before { content: '※'; }
 
-.typographic-symbol:nth-child(4) { left: 35%; top: 40%; font-size: 50px; opacity: 0.07; animation: spin-random-4 29s; }
+.typographic-symbol:nth-child(4) { left: 35%; top: 40%; font-size: 50px; opacity: 0.07; animation: spin-random-4 29s infinite; }
 .typographic-symbol:nth-child(4)::before { content: '❧'; }
 
-.typographic-symbol:nth-child(5) { left: 45%; top: 15%; font-size: 70px; opacity: 0.09; animation: spin-random-5 25s; }
+.typographic-symbol:nth-child(5) { left: 45%; top: 15%; font-size: 70px; opacity: 0.09; animation: spin-random-5 25s infinite; }
 .typographic-symbol:nth-child(5)::before { content: '⸙'; }
 
-.typographic-symbol:nth-child(6) { left: 55%; top: 60%; font-size: 40px; opacity: 0.06; animation: spin-random-6 34s; }
+.typographic-symbol:nth-child(6) { left: 55%; top: 60%; font-size: 40px; opacity: 0.06; animation: spin-random-6 34s infinite; }
 .typographic-symbol:nth-child(6)::before { content: '⁂'; }
 
-.typographic-symbol:nth-child(7) { left: 65%; top: 30%; font-size: 55px; opacity: 0.08; animation: spin-random-7 28s; }
+.typographic-symbol:nth-child(7) { left: 65%; top: 30%; font-size: 55px; opacity: 0.08; animation: spin-random-7 28s infinite; }
 .typographic-symbol:nth-child(7)::before { content: '№'; }
 
-.typographic-symbol:nth-child(8) { left: 75%; top: 50%; font-size: 48px; opacity: 0.07; animation: spin-random-8 32s; }
+.typographic-symbol:nth-child(8) { left: 75%; top: 50%; font-size: 48px; opacity: 0.07; animation: spin-random-8 32s infinite; }
 .typographic-symbol:nth-child(8)::before { content: '❡'; }
 
-.typographic-symbol:nth-child(9) { left: 85%; top: 20%; font-size: 42px; opacity: 0.06; animation: spin-random-9 26s; }
+.typographic-symbol:nth-child(9) { left: 85%; top: 20%; font-size: 42px; opacity: 0.06; animation: spin-random-9 26s infinite; }
 .typographic-symbol:nth-child(9)::before { content: '⌕'; }
 
-.typographic-symbol:nth-child(10) { left: 10%; top: 70%; font-size: 65px; opacity: 0.09; animation: spin-random-10 30s; }
+.typographic-symbol:nth-child(10) { left: 10%; top: 70%; font-size: 65px; opacity: 0.09; animation: spin-random-10 30s infinite; }
 .typographic-symbol:nth-child(10)::before { content: '©'; }
 
-.typographic-symbol:nth-child(11) { left: 20%; top: 80%; font-size: 38px; opacity: 0.05; animation: spin-random-11 24s; }
+.typographic-symbol:nth-child(11) { left: 20%; top: 80%; font-size: 38px; opacity: 0.05; animation: spin-random-11 24s infinite; }
 .typographic-symbol:nth-child(11)::before { content: '®'; }
 
-.typographic-symbol:nth-child(12) { left: 30%; top: 55%; font-size: 52px; opacity: 0.07; animation: spin-random-12 33s; }
+.typographic-symbol:nth-child(12) { left: 30%; top: 55%; font-size: 52px; opacity: 0.07; animation: spin-random-12 33s infinite; }
 .typographic-symbol:nth-child(12)::before { content: '@'; }
 
-.typographic-symbol:nth-child(13) { left: 40%; top: 75%; font-size: 46px; opacity: 0.06; animation: spin-random-13 27s; }
+.typographic-symbol:nth-child(13) { left: 40%; top: 75%; font-size: 46px; opacity: 0.06; animation: spin-random-13 27s infinite; }
 .typographic-symbol:nth-child(13)::before { content: '#'; }
 
-.typographic-symbol:nth-child(14) { left: 50%; top: 35%; font-size: 58px; opacity: 0.08; animation: spin-random-14 29s; }
+.typographic-symbol:nth-child(14) { left: 50%; top: 35%; font-size: 58px; opacity: 0.08; animation: spin-random-14 29s infinite; }
 .typographic-symbol:nth-child(14)::before { content: '&'; }
 
-.typographic-symbol:nth-child(15) { left: 60%; top: 45%; font-size: 44px; opacity: 0.06; animation: spin-random-15 31s; }
+.typographic-symbol:nth-child(15) { left: 60%; top: 45%; font-size: 44px; opacity: 0.06; animation: spin-random-15 31s infinite; }
 .typographic-symbol:nth-child(15)::before { content: '*'; }
 
-.typographic-symbol:nth-child(16) { left: 70%; top: 65%; font-size: 50px; opacity: 0.07; animation: spin-random-16 25s; }
+.typographic-symbol:nth-child(16) { left: 70%; top: 65%; font-size: 50px; opacity: 0.07; animation: spin-random-16 25s infinite; }
 .typographic-symbol:nth-child(16)::before { content: '~'; }
 
-.typographic-symbol:nth-child(17) { left: 80%; top: 85%; font-size: 36px; opacity: 0.05; animation: spin-random-17 28s; }
+.typographic-symbol:nth-child(17) { left: 80%; top: 85%; font-size: 36px; opacity: 0.05; animation: spin-random-17 28s infinite; }
 .typographic-symbol:nth-child(17)::before { content: '^'; }
 
-.typographic-symbol:nth-child(18) { left: 90%; top: 40%; font-size: 62px; opacity: 0.08; animation: spin-random-18 32s; }
+.typographic-symbol:nth-child(18) { left: 90%; top: 40%; font-size: 62px; opacity: 0.08; animation: spin-random-18 32s infinite; }
 .typographic-symbol:nth-child(18)::before { content: '='; }
 
-.typographic-symbol:nth-child(19) { left: 8%; top: 50%; font-size: 48px; opacity: 0.07; animation: spin-random-19 26s; }
+.typographic-symbol:nth-child(19) { left: 8%; top: 50%; font-size: 48px; opacity: 0.07; animation: spin-random-19 26s infinite; }
 .typographic-symbol:nth-child(19)::before { content: '+'; }
 
-.typographic-symbol:nth-child(20) { left: 18%; top: 60%; font-size: 54px; opacity: 0.08; animation: spin-random-20 30s; }
+.typographic-symbol:nth-child(20) { left: 18%; top: 60%; font-size: 54px; opacity: 0.08; animation: spin-random-20 30s infinite; }
 .typographic-symbol:nth-child(20)::before { content: '-'; }
 
-.typographic-symbol:nth-child(21) { left: 28%; top: 90%; font-size: 40px; opacity: 0.06; animation: spin-random-21 24s; }
+.typographic-symbol:nth-child(21) { left: 28%; top: 90%; font-size: 40px; opacity: 0.06; animation: spin-random-21 24s infinite; }
 .typographic-symbol:nth-child(21)::before { content: '×'; }
 
-.typographic-symbol:nth-child(22) { left: 38%; top: 20%; font-size: 56px; opacity: 0.08; animation: spin-random-22 33s; }
+.typographic-symbol:nth-child(22) { left: 38%; top: 20%; font-size: 56px; opacity: 0.08; animation: spin-random-22 33s infinite; }
 .typographic-symbol:nth-child(22)::before { content: '÷'; }
 
-.typographic-symbol:nth-child(23) { left: 48%; top: 70%; font-size: 42px; opacity: 0.06; animation: spin-random-23 27s; }
+.typographic-symbol:nth-child(23) { left: 48%; top: 70%; font-size: 42px; opacity: 0.06; animation: spin-random-23 27s infinite; }
 .typographic-symbol:nth-child(23)::before { content: '∞'; }
 
-.typographic-symbol:nth-child(24) { left: 58%; top: 10%; font-size: 68px; opacity: 0.09; animation: spin-random-24 29s; }
+.typographic-symbol:nth-child(24) { left: 58%; top: 10%; font-size: 68px; opacity: 0.09; animation: spin-random-24 29s infinite; }
 .typographic-symbol:nth-child(24)::before { content: '∑'; }
 
-.typographic-symbol:nth-child(25) { left: 68%; top: 80%; font-size: 46px; opacity: 0.07; animation: spin-random-25 31s; }
+.typographic-symbol:nth-child(25) { left: 68%; top: 80%; font-size: 46px; opacity: 0.07; animation: spin-random-25 31s infinite; }
 .typographic-symbol:nth-child(25)::before { content: '∫'; }
 
-.typographic-symbol:nth-child(26) { left: 78%; top: 15%; font-size: 52px; opacity: 0.07; animation: spin-random-26 25s; }
+.typographic-symbol:nth-child(26) { left: 78%; top: 15%; font-size: 52px; opacity: 0.07; animation: spin-random-26 25s infinite; }
 .typographic-symbol:nth-child(26)::before { content: 'α'; }
 
-.typographic-symbol:nth-child(27) { left: 88%; top: 55%; font-size: 38px; opacity: 0.05; animation: spin-random-27 28s; }
+.typographic-symbol:nth-child(27) { left: 88%; top: 55%; font-size: 38px; opacity: 0.05; animation: spin-random-27 28s infinite; }
 .typographic-symbol:nth-child(27)::before { content: 'β'; }
 
-.typographic-symbol:nth-child(28) { left: 12%; top: 35%; font-size: 60px; opacity: 0.08; animation: spin-random-28 32s; }
+.typographic-symbol:nth-child(28) { left: 12%; top: 35%; font-size: 60px; opacity: 0.08; animation: spin-random-28 32s infinite; }
 .typographic-symbol:nth-child(28)::before { content: 'γ'; }
 
-.typographic-symbol:nth-child(29) { left: 42%; top: 85%; font-size: 44px; opacity: 0.06; animation: spin-random-29 26s; }
+.typographic-symbol:nth-child(29) { left: 42%; top: 85%; font-size: 44px; opacity: 0.06; animation: spin-random-29 26s infinite; }
 .typographic-symbol:nth-child(29)::before { content: 'δ'; }
 
-.typographic-symbol:nth-child(30) { left: 72%; top: 5%; font-size: 50px; opacity: 0.07; animation: spin-random-30 30s; }
+.typographic-symbol:nth-child(30) { left: 72%; top: 5%; font-size: 50px; opacity: 0.07; animation: spin-random-30 30s infinite; }
 .typographic-symbol:nth-child(30)::before { content: '✣'; }
 
 /* Truly Random 3D Rotation Animations - each completely unique */
