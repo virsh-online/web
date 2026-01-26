@@ -8,20 +8,26 @@
     // Configuration
     const config = {
         symbolCount: 30,
-        symbols: ['§', '¶', '※', '❧', '⸙', '⁂', '№', '❡', '⌕', '⸙', '©', '®', '@', '#', '&', '*', '~', '^', '=', '+', '-', '×', '÷', '∞', '∑', '∫', 'α', 'β', 'γ', 'δ'],
+        symbols: ['§', '¶', '※', '❧', '⸙', '⁂', '№', '❡', '⌕', '©', '®', '@', '#', '&', '*', '~', '^', '=', '+', '-', '×', '÷', '∞', '∑', '∫', 'α', 'β', 'γ', 'δ', '✣'],
         gravity: 0.15, // Gravity acceleration
         friction: 0.98, // Air resistance
         bounceDamping: 0.7, // Energy loss on bounce
         minSize: 20,
         maxSize: 80,
         rotationSpeed: { min: 0.5, max: 3 },
-        opacity: { min: 0.05, max: 0.15 }
+        opacity: { min: 0.05, max: 0.15 },
+        targetFrameTime: 16.67 // 60 FPS = 1000ms/60
     };
 
     class TypographicSymbol {
         constructor(canvas) {
             this.canvas = canvas;
             this.reset();
+        }
+
+        // Helper function to generate random rotation speed
+        getRandomRotationSpeed() {
+            return (Math.random() - 0.5) * (config.rotationSpeed.max - config.rotationSpeed.min) + config.rotationSpeed.min;
         }
 
         reset() {
@@ -45,20 +51,17 @@
             this.rotationZ = Math.random() * Math.PI * 2;
             
             // Random rotation speeds
-            this.rotationSpeedX = (Math.random() - 0.5) * (config.rotationSpeed.max - config.rotationSpeed.min) + config.rotationSpeed.min;
-            this.rotationSpeedY = (Math.random() - 0.5) * (config.rotationSpeed.max - config.rotationSpeed.min) + config.rotationSpeed.min;
-            this.rotationSpeedZ = (Math.random() - 0.5) * (config.rotationSpeed.max - config.rotationSpeed.min) + config.rotationSpeed.min;
+            this.rotationSpeedX = this.getRandomRotationSpeed();
+            this.rotationSpeedY = this.getRandomRotationSpeed();
+            this.rotationSpeedZ = this.getRandomRotationSpeed();
             
             // Random opacity
             this.baseOpacity = config.opacity.min + Math.random() * (config.opacity.max - config.opacity.min);
-            
-            // Mass affects gravity
-            this.mass = this.size / config.maxSize;
         }
 
         update(deltaTime) {
-            // Apply gravity (F = ma, where a = gravity)
-            this.vy += config.gravity * this.mass * deltaTime;
+            // Apply gravity (acceleration is constant regardless of mass)
+            this.vy += config.gravity * deltaTime;
             
             // Apply friction
             this.vx *= config.friction;
@@ -186,7 +189,7 @@
 
         animate() {
             const currentTime = performance.now();
-            const deltaTime = Math.min((currentTime - this.lastTime) / 16.67, 2); // Cap at 2x speed
+            const deltaTime = Math.min((currentTime - this.lastTime) / config.targetFrameTime, 2); // Cap at 2x speed
             this.lastTime = currentTime;
             
             // Clear canvas
