@@ -1,0 +1,183 @@
+/**
+ * 3D Typographic Background - Pure CSS Animation
+ * Creates spinning typographic symbols with 3D rotation effects
+ */
+
+/* Container for all typographic symbols */
+.typographic-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Individual symbol styling */
+.typographic-symbol {
+    position: absolute;
+    font-family: 'Special Elite', 'Courier Prime', monospace;
+    color: var(--highlight);
+    font-weight: normal;
+    line-height: 1;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    transform-style: preserve-3d;
+}
+
+/* 30 symbols with varied positions, sizes, and animations */
+.typographic-symbol:nth-child(1) { left: 5%; top: 10%; font-size: 45px; opacity: 0.06; animation: spin3d-1 25s, float-1 20s; }
+.typographic-symbol:nth-child(1)::before { content: '§'; }
+
+.typographic-symbol:nth-child(2) { left: 15%; top: 25%; font-size: 60px; opacity: 0.08; animation: spin3d-2 30s, float-2 25s; }
+.typographic-symbol:nth-child(2)::before { content: '¶'; }
+
+.typographic-symbol:nth-child(3) { left: 25%; top: 5%; font-size: 35px; opacity: 0.05; animation: spin3d-3 35s, float-3 18s; }
+.typographic-symbol:nth-child(3)::before { content: '※'; }
+
+.typographic-symbol:nth-child(4) { left: 35%; top: 40%; font-size: 50px; opacity: 0.07; animation: spin3d-4 28s, float-4 22s; }
+.typographic-symbol:nth-child(4)::before { content: '❧'; }
+
+.typographic-symbol:nth-child(5) { left: 45%; top: 15%; font-size: 70px; opacity: 0.09; animation: spin3d-5 32s, float-5 27s; }
+.typographic-symbol:nth-child(5)::before { content: '⸙'; }
+
+.typographic-symbol:nth-child(6) { left: 55%; top: 60%; font-size: 40px; opacity: 0.06; animation: spin3d-6 26s, float-6 19s; }
+.typographic-symbol:nth-child(6)::before { content: '⁂'; }
+
+.typographic-symbol:nth-child(7) { left: 65%; top: 30%; font-size: 55px; opacity: 0.08; animation: spin3d-7 29s, float-7 24s; }
+.typographic-symbol:nth-child(7)::before { content: '№'; }
+
+.typographic-symbol:nth-child(8) { left: 75%; top: 50%; font-size: 48px; opacity: 0.07; animation: spin3d-8 31s, float-8 21s; }
+.typographic-symbol:nth-child(8)::before { content: '❡'; }
+
+.typographic-symbol:nth-child(9) { left: 85%; top: 20%; font-size: 42px; opacity: 0.06; animation: spin3d-9 27s, float-9 23s; }
+.typographic-symbol:nth-child(9)::before { content: '⌕'; }
+
+.typographic-symbol:nth-child(10) { left: 10%; top: 70%; font-size: 65px; opacity: 0.09; animation: spin3d-10 33s, float-10 26s; }
+.typographic-symbol:nth-child(10)::before { content: '©'; }
+
+.typographic-symbol:nth-child(11) { left: 20%; top: 80%; font-size: 38px; opacity: 0.05; animation: spin3d-11 24s, float-11 20s; }
+.typographic-symbol:nth-child(11)::before { content: '®'; }
+
+.typographic-symbol:nth-child(12) { left: 30%; top: 55%; font-size: 52px; opacity: 0.07; animation: spin3d-12 28s, float-12 22s; }
+.typographic-symbol:nth-child(12)::before { content: '@'; }
+
+.typographic-symbol:nth-child(13) { left: 40%; top: 75%; font-size: 46px; opacity: 0.06; animation: spin3d-13 26s, float-13 19s; }
+.typographic-symbol:nth-child(13)::before { content: '#'; }
+
+.typographic-symbol:nth-child(14) { left: 50%; top: 35%; font-size: 58px; opacity: 0.08; animation: spin3d-14 30s, float-14 25s; }
+.typographic-symbol:nth-child(14)::before { content: '&'; }
+
+.typographic-symbol:nth-child(15) { left: 60%; top: 45%; font-size: 44px; opacity: 0.06; animation: spin3d-15 27s, float-15 21s; }
+.typographic-symbol:nth-child(15)::before { content: '*'; }
+
+.typographic-symbol:nth-child(16) { left: 70%; top: 65%; font-size: 50px; opacity: 0.07; animation: spin3d-16 29s, float-16 24s; }
+.typographic-symbol:nth-child(16)::before { content: '~'; }
+
+.typographic-symbol:nth-child(17) { left: 80%; top: 85%; font-size: 36px; opacity: 0.05; animation: spin3d-17 25s, float-17 18s; }
+.typographic-symbol:nth-child(17)::before { content: '^'; }
+
+.typographic-symbol:nth-child(18) { left: 90%; top: 40%; font-size: 62px; opacity: 0.08; animation: spin3d-18 31s, float-18 26s; }
+.typographic-symbol:nth-child(18)::before { content: '='; }
+
+.typographic-symbol:nth-child(19) { left: 8%; top: 50%; font-size: 48px; opacity: 0.07; animation: spin3d-19 28s, float-19 23s; }
+.typographic-symbol:nth-child(19)::before { content: '+'; }
+
+.typographic-symbol:nth-child(20) { left: 18%; top: 60%; font-size: 54px; opacity: 0.08; animation: spin3d-20 32s, float-20 27s; }
+.typographic-symbol:nth-child(20)::before { content: '-'; }
+
+.typographic-symbol:nth-child(21) { left: 28%; top: 90%; font-size: 40px; opacity: 0.06; animation: spin3d-21 26s, float-21 20s; }
+.typographic-symbol:nth-child(21)::before { content: '×'; }
+
+.typographic-symbol:nth-child(22) { left: 38%; top: 20%; font-size: 56px; opacity: 0.08; animation: spin3d-22 29s, float-22 24s; }
+.typographic-symbol:nth-child(22)::before { content: '÷'; }
+
+.typographic-symbol:nth-child(23) { left: 48%; top: 70%; font-size: 42px; opacity: 0.06; animation: spin3d-23 27s, float-23 21s; }
+.typographic-symbol:nth-child(23)::before { content: '∞'; }
+
+.typographic-symbol:nth-child(24) { left: 58%; top: 10%; font-size: 68px; opacity: 0.09; animation: spin3d-24 33s, float-24 28s; }
+.typographic-symbol:nth-child(24)::before { content: '∑'; }
+
+.typographic-symbol:nth-child(25) { left: 68%; top: 80%; font-size: 46px; opacity: 0.07; animation: spin3d-25 28s, float-25 22s; }
+.typographic-symbol:nth-child(25)::before { content: '∫'; }
+
+.typographic-symbol:nth-child(26) { left: 78%; top: 15%; font-size: 52px; opacity: 0.07; animation: spin3d-26 30s, float-26 25s; }
+.typographic-symbol:nth-child(26)::before { content: 'α'; }
+
+.typographic-symbol:nth-child(27) { left: 88%; top: 55%; font-size: 38px; opacity: 0.05; animation: spin3d-27 25s, float-27 19s; }
+.typographic-symbol:nth-child(27)::before { content: 'β'; }
+
+.typographic-symbol:nth-child(28) { left: 12%; top: 35%; font-size: 60px; opacity: 0.08; animation: spin3d-28 31s, float-28 26s; }
+.typographic-symbol:nth-child(28)::before { content: 'γ'; }
+
+.typographic-symbol:nth-child(29) { left: 42%; top: 85%; font-size: 44px; opacity: 0.06; animation: spin3d-29 27s, float-29 21s; }
+.typographic-symbol:nth-child(29)::before { content: 'δ'; }
+
+.typographic-symbol:nth-child(30) { left: 72%; top: 5%; font-size: 50px; opacity: 0.07; animation: spin3d-30 29s, float-30 24s; }
+.typographic-symbol:nth-child(30)::before { content: '✣'; }
+
+/* 3D Rotation Animations - Each slightly different */
+@keyframes spin3d-1 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); } }
+@keyframes spin3d-2 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(-360deg) rotateY(360deg) rotateZ(-360deg); } }
+@keyframes spin3d-3 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(360deg) rotateY(-360deg) rotateZ(360deg); } }
+@keyframes spin3d-4 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(-360deg) rotateY(-360deg) rotateZ(360deg); } }
+@keyframes spin3d-5 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(-360deg); } }
+@keyframes spin3d-6 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(-360deg) rotateY(360deg) rotateZ(360deg); } }
+@keyframes spin3d-7 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(360deg) rotateY(-360deg) rotateZ(-360deg); } }
+@keyframes spin3d-8 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(-360deg) rotateY(-360deg) rotateZ(-360deg); } }
+@keyframes spin3d-9 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); } }
+@keyframes spin3d-10 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(-360deg) rotateY(360deg) rotateZ(-360deg); } }
+@keyframes spin3d-11 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(360deg) rotateY(-360deg) rotateZ(360deg); } }
+@keyframes spin3d-12 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(-360deg) rotateY(-360deg) rotateZ(360deg); } }
+@keyframes spin3d-13 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(-360deg); } }
+@keyframes spin3d-14 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(-360deg) rotateY(360deg) rotateZ(360deg); } }
+@keyframes spin3d-15 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(360deg) rotateY(-360deg) rotateZ(-360deg); } }
+@keyframes spin3d-16 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(-360deg) rotateY(-360deg) rotateZ(-360deg); } }
+@keyframes spin3d-17 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); } }
+@keyframes spin3d-18 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(-360deg) rotateY(360deg) rotateZ(-360deg); } }
+@keyframes spin3d-19 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(360deg) rotateY(-360deg) rotateZ(360deg); } }
+@keyframes spin3d-20 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(-360deg) rotateY(-360deg) rotateZ(360deg); } }
+@keyframes spin3d-21 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(-360deg); } }
+@keyframes spin3d-22 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(-360deg) rotateY(360deg) rotateZ(360deg); } }
+@keyframes spin3d-23 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(360deg) rotateY(-360deg) rotateZ(-360deg); } }
+@keyframes spin3d-24 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(-360deg) rotateY(-360deg) rotateZ(-360deg); } }
+@keyframes spin3d-25 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); } }
+@keyframes spin3d-26 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(-360deg) rotateY(360deg) rotateZ(-360deg); } }
+@keyframes spin3d-27 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(360deg) rotateY(-360deg) rotateZ(360deg); } }
+@keyframes spin3d-28 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(-360deg) rotateY(-360deg) rotateZ(360deg); } }
+@keyframes spin3d-29 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(-360deg); } }
+@keyframes spin3d-30 { 0% { transform: rotateX(0) rotateY(0) rotateZ(0); } 100% { transform: rotateX(-360deg) rotateY(360deg) rotateZ(360deg); } }
+
+/* Floating Animations - Simulating gravity-like movement */
+@keyframes float-1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
+@keyframes float-2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-45px); } }
+@keyframes float-3 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+@keyframes float-4 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-35px); } }
+@keyframes float-5 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-50px); } }
+@keyframes float-6 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-25px); } }
+@keyframes float-7 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-40px); } }
+@keyframes float-8 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-32px); } }
+@keyframes float-9 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-28px); } }
+@keyframes float-10 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-48px); } }
+@keyframes float-11 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-22px); } }
+@keyframes float-12 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-36px); } }
+@keyframes float-13 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
+@keyframes float-14 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-42px); } }
+@keyframes float-15 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-28px); } }
+@keyframes float-16 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-35px); } }
+@keyframes float-17 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+@keyframes float-18 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-46px); } }
+@keyframes float-19 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-32px); } }
+@keyframes float-20 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-38px); } }
+@keyframes float-21 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-26px); } }
+@keyframes float-22 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-40px); } }
+@keyframes float-23 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-28px); } }
+@keyframes float-24 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-52px); } }
+@keyframes float-25 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-34px); } }
+@keyframes float-26 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-36px); } }
+@keyframes float-27 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-24px); } }
+@keyframes float-28 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-44px); } }
+@keyframes float-29 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
+@keyframes float-30 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-35px); } }

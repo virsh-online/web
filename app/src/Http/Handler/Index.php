@@ -42,6 +42,10 @@ class Index extends Handler
         $this->getLayout()->asset('css', [
             'href' => Config::get('url.asset') . '/css/main.css'
         ]);
+        
+        $this->getLayout()->asset('css', [
+            'href' => Config::get('url.asset') . '/css/typographic-background.css'
+        ]);
 
         return $this->layout(
                 'poetry',
