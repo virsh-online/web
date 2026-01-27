@@ -125,10 +125,6 @@
      animation: symbol-float 3s ease-in-out infinite;
  }
 
- .logo-symbol:first-child {
-     animation-delay: 0s;
- }
-
  .logo-symbol:last-child {
      animation-delay: 1.5s;
  }
