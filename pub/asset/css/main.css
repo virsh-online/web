@@ -242,7 +242,7 @@
  }
 
  .poem-sheet {
-     background: var(--paper);
+     /*background: var(--paper);*/
      /*border: 1px solid var(--ink-faded);*/
      padding: 30px;
      position: relative;
