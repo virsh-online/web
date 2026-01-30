@@ -58,6 +58,65 @@
                     });
                 });
             }
+
+            // Logo typing effect
+            const logoText = document.getElementById('logo-text');
+            if (logoText) {
+                const fullText = logoText.dataset.text;
+                const TYPING_PAUSE = 2000; // Pause after typing completes (ms)
+                const BACKSPACE_PAUSE = 1000; // Pause after backspace completes (ms)
+                
+                // Check if user prefers reduced motion
+                const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                
+                if (!prefersReducedMotion) {
+                    let currentCharPosition = 0;
+                    let isTyping = true;
+                    let timeoutId = null;
+
+                    // Mark element as decorative for screen readers (aria-label already provides full text)
+                    logoText.setAttribute('aria-live', 'off');
+
+                    function getRandomDelay(min, max) {
+                        return Math.floor(Math.random() * (max - min + 1)) + min;
+                    }
+
+                    function typeWriter() {
+                        if (isTyping) {
+                            if (currentCharPosition < fullText.length) {
+                                currentCharPosition++;
+                                logoText.textContent = fullText.substring(0, currentCharPosition);
+                                timeoutId = setTimeout(typeWriter, getRandomDelay(50, 200));
+                            } else {
+                                // Pause before starting backspace
+                                timeoutId = setTimeout(() => {
+                                    isTyping = false;
+                                    backspace();
+                                }, TYPING_PAUSE);
+                            }
+                        }
+                    }
+
+                    function backspace() {
+                        if (!isTyping) {
+                            if (currentCharPosition > 0) {
+                                currentCharPosition--;
+                                logoText.textContent = fullText.substring(0, currentCharPosition);
+                                timeoutId = setTimeout(backspace, getRandomDelay(30, 100));
+                            } else {
+                                // Pause before starting typing again
+                                timeoutId = setTimeout(() => {
+                                    isTyping = true;
+                                    typeWriter();
+                                }, BACKSPACE_PAUSE);
+                            }
+                        }
+                    }
+
+                    // Start the animation
+                    typeWriter();
+                }
+            }
         });
     </script>
     <?= $this->assets() ?>
