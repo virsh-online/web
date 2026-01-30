@@ -146,6 +146,15 @@
                 font-size: 1.4rem;
             }
         }
+
+        /* Respect reduced motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            .vo-logo-type,
+            .vo-logo-symbol,
+            .vo-logo-type::before {
+                animation: none !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -153,7 +162,7 @@
     <div class="vo-logo-container">
         <div class="vo-logo-wrapper">
             <span class="vo-logo-symbol">※</span>
-            <a href="#" class="vo-logo-type" id="vo-logo-text" data-text="ВІРШ ОНЛАЙН" aria-label="ВІРШ ОНЛАЙН">ВІРШ ОНЛАЙН</a>
+            <a href="https://virsh.online" class="vo-logo-type" id="vo-logo-text" data-text="ВІРШ ОНЛАЙН" aria-label="ВІРШ ОНЛАЙН">ВІРШ ОНЛАЙН</a>
             <span class="vo-logo-symbol">⸙</span>
         </div>
     </div>
@@ -164,10 +173,28 @@
         (function() {
             'use strict';
             
+            // Track if animation is already running to prevent duplicates
+            let voLogoAnimationRunning = false;
+            let voLogoTimeoutId = null;
+            
+            // Cleanup function to stop animation
+            function voLogoCleanup() {
+                if (voLogoTimeoutId) {
+                    clearTimeout(voLogoTimeoutId);
+                    voLogoTimeoutId = null;
+                }
+                voLogoAnimationRunning = false;
+            }
+            
             // Initialize logo typing effect on DOM ready
             function voLogoInit() {
                 const logoText = document.getElementById('vo-logo-text');
                 if (!logoText) return;
+                
+                // Prevent multiple animations on same element
+                if (voLogoAnimationRunning) {
+                    return;
+                }
                 
                 const fullText = logoText.dataset.text || logoText.textContent;
                 const TYPING_PAUSE = 2000; // Pause after typing completes (ms)
@@ -184,7 +211,7 @@
                 
                 let currentCharPosition = 0;
                 let isTyping = true;
-                let timeoutId = null;
+                voLogoAnimationRunning = true;
                 
                 // Mark element as decorative for screen readers
                 logoText.setAttribute('aria-live', 'off');
@@ -198,10 +225,10 @@
                         if (currentCharPosition < fullText.length) {
                             currentCharPosition++;
                             logoText.textContent = fullText.substring(0, currentCharPosition);
-                            timeoutId = setTimeout(voLogoTypeWriter, voLogoGetRandomDelay(50, 200));
+                            voLogoTimeoutId = setTimeout(voLogoTypeWriter, voLogoGetRandomDelay(50, 200));
                         } else {
                             // Pause before starting backspace
-                            timeoutId = setTimeout(() => {
+                            voLogoTimeoutId = setTimeout(() => {
                                 isTyping = false;
                                 voLogoBackspace();
                             }, TYPING_PAUSE);
@@ -214,10 +241,10 @@
                         if (currentCharPosition > 0) {
                             currentCharPosition--;
                             logoText.textContent = fullText.substring(0, currentCharPosition);
-                            timeoutId = setTimeout(voLogoBackspace, voLogoGetRandomDelay(30, 100));
+                            voLogoTimeoutId = setTimeout(voLogoBackspace, voLogoGetRandomDelay(30, 100));
                         } else {
                             // Pause before starting typing again
-                            timeoutId = setTimeout(() => {
+                            voLogoTimeoutId = setTimeout(() => {
                                 isTyping = true;
                                 voLogoTypeWriter();
                             }, BACKSPACE_PAUSE);
@@ -235,6 +262,12 @@
             } else {
                 voLogoInit();
             }
+            
+            // Cleanup on page unload to prevent memory leaks
+            window.addEventListener('beforeunload', voLogoCleanup);
+            
+            // Expose cleanup function globally if needed for embedding scenarios
+            window.voLogoCleanup = voLogoCleanup;
         })();
     </script>
 </body>

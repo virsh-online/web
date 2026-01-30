@@ -38,7 +38,7 @@ Then include the `<style>` and `<script>` sections from logo.html in your page's
 
 ### Via iframe
 ```html
-<iframe src="path/to/logo.html" width="400" height="100" frameborder="0"></iframe>
+<iframe src="path/to/logo.html" width="400" height="100" style="border: none;"></iframe>
 ```
 
 ## Customization
@@ -50,9 +50,16 @@ Modify the `data-text` attribute:
 ```
 
 ### Change Link Target
-Modify the `href` attribute:
+Modify the `href` attribute in logo.html:
 ```html
 <a href="https://yoursite.com" class="vo-logo-type" ...>
+```
+
+### Stop Animation Programmatically
+If embedding in a single-page application where you need to clean up:
+```javascript
+// Call the cleanup function before removing the logo
+window.voLogoCleanup();
 ```
 
 ### Disable Animation
