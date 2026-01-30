@@ -317,6 +317,7 @@
      font-size: 1.2rem;
      color: var(--highlight);
      opacity: 0.6;
+     animation: rotate3d 6s ease-in-out infinite;
  }
 
  .poem-sheet::before {
@@ -328,6 +329,7 @@
      bottom: 0px;
      right: 10px;
      transform: rotate(180deg);
+     animation-delay: 3s;
  }
 
  .poem-meta {
@@ -355,6 +357,12 @@
      font-size: 1rem;
      margin: 0 10px;
      opacity: 0.7;
+     display: inline-block;
+     animation: rotate3d 5s ease-in-out infinite;
+ }
+
+ .poem-header::after {
+     animation-delay: 2.5s;
  }
 
  .poem-title-vintage {
@@ -408,6 +416,7 @@
      font-style: italic;
      color: var(--ink-faded);
      font-size: 0.9rem;
+     animation: slideRightLeftRight 8s ease-in-out infinite;
  }
 
  .poem-footer::before {
@@ -685,6 +694,32 @@
 
      to {
          width: 100%;
+     }
+ }
+
+ /* 3D rotation animation for decorative elements */
+ @keyframes rotate3d {
+     0%, 100% {
+         transform: rotateY(0deg) rotateX(0deg);
+     }
+     25% {
+         transform: rotateY(180deg) rotateX(0deg);
+     }
+     50% {
+         transform: rotateY(180deg) rotateX(180deg);
+     }
+     75% {
+         transform: rotateY(0deg) rotateX(180deg);
+     }
+ }
+
+ /* Right-to-left-to-right slide animation */
+ @keyframes slideRightLeftRight {
+     0%, 100% {
+         transform: translateX(0);
+     }
+     50% {
+         transform: translateX(-20px);
      }
  }
 
