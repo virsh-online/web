@@ -58,6 +58,54 @@
                     });
                 });
             }
+
+            // Logo typing effect
+            const logoText = document.getElementById('logo-text');
+            if (logoText) {
+                const fullText = logoText.dataset.text;
+                let currentIndex = 0;
+                let isTyping = true;
+                let timeoutId = null;
+
+                function getRandomDelay(min = 50, max = 200) {
+                    return Math.floor(Math.random() * (max - min + 1)) + min;
+                }
+
+                function typeWriter() {
+                    if (isTyping) {
+                        if (currentIndex <= fullText.length) {
+                            logoText.textContent = fullText.substring(0, currentIndex);
+                            currentIndex++;
+                            timeoutId = setTimeout(typeWriter, getRandomDelay(50, 200));
+                        } else {
+                            // Pause before starting backspace
+                            timeoutId = setTimeout(() => {
+                                isTyping = false;
+                                backspace();
+                            }, 2000);
+                        }
+                    }
+                }
+
+                function backspace() {
+                    if (!isTyping) {
+                        if (currentIndex > 0) {
+                            currentIndex--;
+                            logoText.textContent = fullText.substring(0, currentIndex);
+                            timeoutId = setTimeout(backspace, getRandomDelay(30, 100));
+                        } else {
+                            // Pause before starting typing again
+                            timeoutId = setTimeout(() => {
+                                isTyping = true;
+                                typeWriter();
+                            }, 1000);
+                        }
+                    }
+                }
+
+                // Start the animation
+                typeWriter();
+            }
         });
     </script>
     <?= $this->assets() ?>

@@ -2,3 +2,4 @@
 etc/config/env.php
 node_modules
 vendor
+pub/test-logo.html
