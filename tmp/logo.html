@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virsh Online Logo</title>
+    <style>
+        /* Embedded Logo Styles with unique naming: vo-logo-* prefix */
+        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+
+        /* CSS Variables for theming */
+        .vo-logo-container {
+            --vo-logo-paper: #f4f1e8;
+            --vo-logo-ink: #2c2416;
+            --vo-logo-ink-faded: #6b5d4f;
+            --vo-logo-highlight: #8b4513;
+            --vo-logo-shadow: rgba(44, 36, 22, 0.15);
+        }
+
+        /* Dark theme support */
+        @media (prefers-color-scheme: dark) {
+            .vo-logo-container {
+                --vo-logo-paper: #2a2520;
+                --vo-logo-ink: #e8e0d5;
+                --vo-logo-ink-faded: #a8998a;
+                --vo-logo-highlight: #d4a574;
+                --vo-logo-shadow: rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        /* Manual theme overrides */
+        .vo-logo-container.vo-logo-theme-light {
+            --vo-logo-paper: #f4f1e8;
+            --vo-logo-ink: #2c2416;
+            --vo-logo-ink-faded: #6b5d4f;
+            --vo-logo-highlight: #8b4513;
+            --vo-logo-shadow: rgba(44, 36, 22, 0.15);
+        }
+
+        .vo-logo-container.vo-logo-theme-dark {
+            --vo-logo-paper: #2a2520;
+            --vo-logo-ink: #e8e0d5;
+            --vo-logo-ink-faded: #a8998a;
+            --vo-logo-highlight: #d4a574;
+            --vo-logo-shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Reset and container styles */
+        .vo-logo-container {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: var(--vo-logo-paper);
+            color: var(--vo-logo-ink);
+            font-family: 'Courier Prime', 'Courier New', monospace;
+            display: inline-block;
+        }
+
+        .vo-logo-container * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .vo-logo-wrapper {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 20px;
+        }
+
+        .vo-logo-type {
+            font-family: 'Special Elite', cursive;
+            font-size: 1.5rem;
+            color: var(--vo-logo-ink);
+            text-decoration: none;
+            letter-spacing: 2px;
+            position: relative;
+            animation: vo-logo-glow 3s ease-in-out infinite;
+        }
+
+        .vo-logo-type::before {
+            content: '❡';
+            margin-right: 8px;
+            font-size: 1.3rem;
+            color: var(--vo-logo-highlight);
+            animation: vo-symbol-pulse 2s ease-in-out infinite;
+        }
+
+        /* Animated wrapper symbols */
+        .vo-logo-symbol {
+            font-family: 'Special Elite', cursive;
+            font-size: 1.2rem;
+            color: var(--vo-logo-highlight);
+            opacity: 0.7;
+            display: inline-block;
+            animation: vo-symbol-float 3s ease-in-out infinite;
+        }
+
+        .vo-logo-symbol:last-child {
+            animation-delay: 1.5s;
+        }
+
+        /* Logo glow animation */
+        @keyframes vo-logo-glow {
+            0%, 100% {
+                text-shadow: 0 0 5px var(--vo-logo-highlight), 0 0 10px transparent;
+            }
+            50% {
+                text-shadow: 0 0 10px var(--vo-logo-highlight), 0 0 20px var(--vo-logo-highlight);
+            }
+        }
+
+        /* Symbol pulse animation */
+        @keyframes vo-symbol-pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.8;
+            }
+        }
+
+        /* Symbol float animation */
+        @keyframes vo-symbol-float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.7;
+            }
+            33% {
+                transform: translateY(-5px) rotate(10deg);
+                opacity: 1;
+            }
+            66% {
+                transform: translateY(5px) rotate(-10deg);
+                opacity: 0.5;
+            }
+        }
+
+        /* Responsive sizing */
+        @media (max-width: 480px) {
+            .vo-logo-type {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Virsh Online Logo - Standalone Embeddable Version -->
+    <div class="vo-logo-container">
+        <div class="vo-logo-wrapper">
+            <span class="vo-logo-symbol">※</span>
+            <a href="#" class="vo-logo-type" id="vo-logo-text" data-text="ВІРШ ОНЛАЙН" aria-label="ВІРШ ОНЛАЙН">ВІРШ ОНЛАЙН</a>
+            <span class="vo-logo-symbol">⸙</span>
+        </div>
+    </div>
+
+    <script>
+        // Virsh Online Logo - Typing Animation
+        // All functions prefixed with 'voLogo' to avoid conflicts
+        (function() {
+            'use strict';
+            
+            // Initialize logo typing effect on DOM ready
+            function voLogoInit() {
+                const logoText = document.getElementById('vo-logo-text');
+                if (!logoText) return;
+                
+                const fullText = logoText.dataset.text || logoText.textContent;
+                const TYPING_PAUSE = 2000; // Pause after typing completes (ms)
+                const BACKSPACE_PAUSE = 1000; // Pause after backspace completes (ms)
+                
+                // Check if user prefers reduced motion
+                const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                
+                if (prefersReducedMotion) {
+                    // Skip animation for accessibility
+                    logoText.textContent = fullText;
+                    return;
+                }
+                
+                let currentCharPosition = 0;
+                let isTyping = true;
+                let timeoutId = null;
+                
+                // Mark element as decorative for screen readers
+                logoText.setAttribute('aria-live', 'off');
+                
+                function voLogoGetRandomDelay(min, max) {
+                    return Math.floor(Math.random() * (max - min + 1)) + min;
+                }
+                
+                function voLogoTypeWriter() {
+                    if (isTyping) {
+                        if (currentCharPosition < fullText.length) {
+                            currentCharPosition++;
+                            logoText.textContent = fullText.substring(0, currentCharPosition);
+                            timeoutId = setTimeout(voLogoTypeWriter, voLogoGetRandomDelay(50, 200));
+                        } else {
+                            // Pause before starting backspace
+                            timeoutId = setTimeout(() => {
+                                isTyping = false;
+                                voLogoBackspace();
+                            }, TYPING_PAUSE);
+                        }
+                    }
+                }
+                
+                function voLogoBackspace() {
+                    if (!isTyping) {
+                        if (currentCharPosition > 0) {
+                            currentCharPosition--;
+                            logoText.textContent = fullText.substring(0, currentCharPosition);
+                            timeoutId = setTimeout(voLogoBackspace, voLogoGetRandomDelay(30, 100));
+                        } else {
+                            // Pause before starting typing again
+                            timeoutId = setTimeout(() => {
+                                isTyping = true;
+                                voLogoTypeWriter();
+                            }, BACKSPACE_PAUSE);
+                        }
+                    }
+                }
+                
+                // Start the animation
+                voLogoTypeWriter();
+            }
+            
+            // Initialize when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', voLogoInit);
+            } else {
+                voLogoInit();
+            }
+        })();
+    </script>
+</body>
+</html>
