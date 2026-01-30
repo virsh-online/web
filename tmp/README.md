@@ -28,13 +28,13 @@ Copy and paste the content between `<body>` tags into your page:
 <div class="vo-logo-container">
     <div class="vo-logo-wrapper">
         <span class="vo-logo-symbol">※</span>
-        <a href="#" class="vo-logo-type" id="vo-logo-text" data-text="ВІРШ ОНЛАЙН" aria-label="ВІРШ ОНЛАЙН">ВІРШ ОНЛАЙН</a>
+        <a href="https://virsh.online" class="vo-logo-type" id="vo-logo-text" data-text="ВІРШ ОНЛАЙН" aria-label="ВІРШ ОНЛАЙН" aria-live="off">ВІРШ ОНЛАЙН</a>
         <span class="vo-logo-symbol">⸙</span>
     </div>
 </div>
 ```
 
-Then include the `<style>` and `<script>` sections from logo.html in your page's `<head>` and before closing `</body>` tag respectively.
+Then include the `<style>` section from logo.html in your page's `<head>` (inside a `<style>` tag or extract to external CSS file) and the `<script>` section before the closing `</body>` tag.
 
 ### Via iframe
 ```html
@@ -54,6 +54,8 @@ Modify the `href` attribute in logo.html:
 ```html
 <a href="https://yoursite.com" class="vo-logo-type" ...>
 ```
+
+Note: The default href is set to `https://virsh.online`. Update this based on your embedding context.
 
 ### Stop Animation Programmatically
 If embedding in a single-page application where you need to clean up:

@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Virsh Online Logo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
     <style>
         /* Embedded Logo Styles with unique naming: vo-logo-* prefix */
-        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
 
         /* CSS Variables for theming */
         .vo-logo-container {
@@ -52,7 +53,7 @@
             box-sizing: border-box;
             background: var(--vo-logo-paper);
             color: var(--vo-logo-ink);
-            font-family: 'Courier Prime', 'Courier New', monospace;
+            font-family: 'Special Elite', cursive, monospace;
             display: inline-block;
         }
 
@@ -162,7 +163,7 @@
     <div class="vo-logo-container">
         <div class="vo-logo-wrapper">
             <span class="vo-logo-symbol">※</span>
-            <a href="https://virsh.online" class="vo-logo-type" id="vo-logo-text" data-text="ВІРШ ОНЛАЙН" aria-label="ВІРШ ОНЛАЙН">ВІРШ ОНЛАЙН</a>
+            <a href="https://virsh.online" class="vo-logo-type" id="vo-logo-text" data-text="ВІРШ ОНЛАЙН" aria-label="ВІРШ ОНЛАЙН" aria-live="off">ВІРШ ОНЛАЙН</a>
             <span class="vo-logo-symbol">⸙</span>
         </div>
     </div>
@@ -177,13 +178,19 @@
             let voLogoAnimationRunning = false;
             let voLogoTimeoutId = null;
             
-            // Cleanup function to stop animation
+            // Cleanup function to stop animation and reset state
             function voLogoCleanup() {
                 if (voLogoTimeoutId) {
                     clearTimeout(voLogoTimeoutId);
                     voLogoTimeoutId = null;
                 }
                 voLogoAnimationRunning = false;
+                
+                // Reset text to full text after cleanup
+                const logoText = document.getElementById('vo-logo-text');
+                if (logoText && logoText.dataset.text) {
+                    logoText.textContent = logoText.dataset.text;
+                }
             }
             
             // Initialize logo typing effect on DOM ready
@@ -212,9 +219,6 @@
                 let currentCharPosition = 0;
                 let isTyping = true;
                 voLogoAnimationRunning = true;
-                
-                // Mark element as decorative for screen readers
-                logoText.setAttribute('aria-live', 'off');
                 
                 function voLogoGetRandomDelay(min, max) {
                     return Math.floor(Math.random() * (max - min + 1)) + min;
