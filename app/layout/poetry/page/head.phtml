@@ -63,45 +63,65 @@
             const logoText = document.getElementById('logo-text');
             if (logoText) {
                 const fullText = logoText.dataset.text;
-                let currentIndex = 0;
+                const TYPING_PAUSE = 2000; // Pause after typing completes (ms)
+                const BACKSPACE_PAUSE = 1000; // Pause after backspace completes (ms)
+                let currentCharPosition = 0;
                 let isTyping = true;
                 let timeoutId = null;
 
-                function getRandomDelay(min = 50, max = 200) {
+                // Check if user prefers reduced motion
+                const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                
+                if (prefersReducedMotion) {
+                    // Keep static text for users who prefer reduced motion
+                    return;
+                }
+
+                // Mark element as decorative for screen readers (aria-label already provides full text)
+                logoText.setAttribute('aria-live', 'off');
+
+                function getRandomDelay(min, max) {
                     return Math.floor(Math.random() * (max - min + 1)) + min;
                 }
 
                 function typeWriter() {
                     if (isTyping) {
-                        if (currentIndex <= fullText.length) {
-                            logoText.textContent = fullText.substring(0, currentIndex);
-                            currentIndex++;
+                        if (currentCharPosition <= fullText.length) {
+                            logoText.textContent = fullText.substring(0, currentCharPosition);
+                            currentCharPosition++;
                             timeoutId = setTimeout(typeWriter, getRandomDelay(50, 200));
                         } else {
                             // Pause before starting backspace
                             timeoutId = setTimeout(() => {
                                 isTyping = false;
                                 backspace();
-                            }, 2000);
+                            }, TYPING_PAUSE);
                         }
                     }
                 }
 
                 function backspace() {
                     if (!isTyping) {
-                        if (currentIndex > 0) {
-                            currentIndex--;
-                            logoText.textContent = fullText.substring(0, currentIndex);
+                        if (currentCharPosition > 0) {
+                            currentCharPosition--;
+                            logoText.textContent = fullText.substring(0, currentCharPosition);
                             timeoutId = setTimeout(backspace, getRandomDelay(30, 100));
                         } else {
                             // Pause before starting typing again
                             timeoutId = setTimeout(() => {
                                 isTyping = true;
                                 typeWriter();
-                            }, 1000);
+                            }, BACKSPACE_PAUSE);
                         }
                     }
                 }
+
+                // Cleanup on page unload
+                window.addEventListener('beforeunload', () => {
+                    if (timeoutId) {
+                        clearTimeout(timeoutId);
+                    }
+                });
 
                 // Start the animation
                 typeWriter();
