@@ -15,7 +15,7 @@ return [
             /**
              * Router middleware should be the last in the global stack
              */
-            \Juzdy\Http\Router::class
+            \Juzdy\Http\Router\DynaRouter::class
         ],
         
         // Middleware groups for different areas
