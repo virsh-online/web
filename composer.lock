@@ -7,22 +7,70 @@
     "content-hash": "8d0a0c34b36b73e6925e9d68b0e494b4",
     "packages": [
         {
-            "name": "juzdy/core",
-            "version": "1.1.0",
+            "name": "juzdy/container",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/juzdy/core.git",
-                "reference": "5757edebe6aad385dc5311c203c04ad84bdb3e11"
+                "url": "https://github.com/juzdy/container.git",
+                "reference": "7c2f012f8861b06af175c815d57d71cb8eb7e0b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/juzdy/core/zipball/5757edebe6aad385dc5311c203c04ad84bdb3e11",
-                "reference": "5757edebe6aad385dc5311c203c04ad84bdb3e11",
+                "url": "https://api.github.com/repos/juzdy/container/zipball/7c2f012f8861b06af175c815d57d71cb8eb7e0b1",
+                "reference": "7c2f012f8861b06af175c815d57d71cb8eb7e0b1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.2",
                 "psr/container": "^2.0",
+                "psr/simple-cache": "^3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Juzdy\\Container\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Victor Galitsky",
+                    "email": "concept.galitsky@gmail.com"
+                }
+            ],
+            "description": "The JUZDY PSR-11 Container",
+            "keywords": [
+                "PSR-11",
+                "container",
+                "php",
+                "psr"
+            ],
+            "support": {
+                "issues": "https://github.com/juzdy/container/issues",
+                "source": "https://github.com/juzdy/container/tree/1.0.1"
+            },
+            "time": "2026-02-06T13:24:31+00:00"
+        },
+        {
+            "name": "juzdy/core",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/juzdy/core.git",
+                "reference": "36fb2298bb4f76a5af6ccd5e29cafb9ded74f903"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/juzdy/core/zipball/36fb2298bb4f76a5af6ccd5e29cafb9ded74f903",
+                "reference": "36fb2298bb4f76a5af6ccd5e29cafb9ded74f903",
+                "shasum": ""
+            },
+            "require": {
+                "juzdy/container": "^1",
+                "php": ">=8.2",
                 "psr/event-dispatcher": "^1.0",
                 "psr/http-server-handler": "^1.0",
                 "psr/http-server-middleware": "^1.0",
@@ -51,9 +99,9 @@
             ],
             "support": {
                 "issues": "https://github.com/juzdy/core/issues",
-                "source": "https://github.com/juzdy/core/tree/1.1.0"
+                "source": "https://github.com/juzdy/core/tree/1.2.1"
             },
-            "time": "2026-01-23T10:47:33+00:00"
+            "time": "2026-02-06T13:58:20+00:00"
         },
         {
             "name": "psr/container",
